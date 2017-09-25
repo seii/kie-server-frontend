@@ -1,0 +1,7 @@
+{
+	"infinispan_key":"org.wildfly.camel.CamelCommand",
+	"infinispan_value": {
+		"infinispan_key":"org.wildfly.camel.CamelCommand",
+		"infinispan_value":"camelJMSProducer"
+	}
+}
