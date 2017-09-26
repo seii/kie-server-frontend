@@ -14,6 +14,12 @@ public class Constants {
 	public static final String NOT_A_VALID_PARAMETER = "No valid parameter was specified.\nPossible values are: -help, -?, or -command";
 	public static final String NO_TRANSPORT_VALUE_SPECIFIED = "No -transport value was specified, but this is required for running commands.";
 	public static final String SENDING_COMMAND = "Sending command to execute %s";
+	public static final String FAILED_TO_SCHEDULE = "Failed to schedule the request, no request ID was assigned";
+	public static final String SUCCESSFUL_SCHEDULE = "Successfully scheduled the request. ID %s has been generated.";
+	public static final String NO_REQUEST_FOUND_BY_STATUS = "No requests were found to be in the specified statuses";
+	public static final String NO_REQUEST_FOUND_BY_BUSINESS_KEY = "No requests were found to contain the specified business key";
+	public static final String NO_REQUEST_FOUND_BY_COMMAND = "No requests were found to be using the specified command";
+	
 	private Constants() {
 		
 	}

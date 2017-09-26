@@ -6,10 +6,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wildfly.bpms.frontend.api.BpmsProcessServices;
-import org.wildfly.bpms.frontend.api.BpmsQueryServices;
-import org.wildfly.bpms.frontend.api.BpmsUIServices;
-import org.wildfly.bpms.frontend.api.BpmsUserTaskServices;
 import org.wildfly.bpms.frontend.api.console.BpmsJobConsole;
 import org.wildfly.bpms.frontend.api.console.BpmsKieConsole;
 import org.wildfly.bpms.frontend.api.console.BpmsProcessConsole;
@@ -17,9 +13,9 @@ import org.wildfly.bpms.frontend.api.console.BpmsQueryConsole;
 import org.wildfly.bpms.frontend.api.console.BpmsUIConsole;
 import org.wildfly.bpms.frontend.api.console.BpmsUserTaskConsole;
 import org.wildfly.bpms.frontend.constants.Constants;
-import org.wildfly.bpms.frontend.proxy.BPMSJMSProxy;
-import org.wildfly.bpms.frontend.proxy.BPMSRestProxy;
+import org.wildfly.bpms.frontend.proxy.BpmsJmsProxy;
 import org.wildfly.bpms.frontend.proxy.BpmsProxyInterface;
+import org.wildfly.bpms.frontend.proxy.BpmsRestProxy;
 
 public class Main {
 	
@@ -55,9 +51,9 @@ public class Main {
 		}else if(command != null) {
 			if(transportType != null) {
 				if(transportType.equals("rest")) {
-					proxy = new BPMSRestProxy();
+					proxy = new BpmsRestProxy();
 				}else if(transportType.equals("jms")) {
-					proxy = new BPMSJMSProxy();
+					proxy = new BpmsJmsProxy();
 				}else {
 					logger.error("Invalid transport value {} was specified.", transportType);
 					exit();
@@ -83,27 +79,35 @@ public class Main {
 		//Job commands
 			case "schedulerequest":
 				userResponse = getResponses("command", "date (in MM-dd-yyyy format)",
-						"data (comma separated)", "containerId");
-				jobConsole.scheduleRequestConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2).split(","),
-						userResponse.get(3));
+						"data (comma separated)", "container ID");
+				System.console().writer().println(jobConsole.scheduleRequestConsole(userResponse.get(0),
+						userResponse.get(1), userResponse.get(2).split(","), userResponse.get(3)));
 				break;
 			case "cancelrequest":
-				//jobServices.cancelRequest(requestId);
+				userResponse = getResponses("request ID");
+				jobConsole.cancelRequest(userResponse.get(0));
 				break;
 			case "requeuerequest":
-				//jobServices.requeueRequest(requestId);
+				userResponse = getResponses("request ID");
+				jobConsole.requeueRequest(userResponse.get(0));
 				break;
 			case "getrequestsbystatus":
-				//jobServices.getRequestsByStatus(statuses, page, pageSize)
+				userResponse = getResponses("page", "page size", "statuses (comma separated)");
+				System.console().writer().println(jobConsole.getRequestsByStatus(userResponse.get(0), userResponse.get(1),
+						userResponse.get(2).split(",")));
 				break;
 			case "getrequestsbybusinesskey":
-				//jobServices.getRequestsByBusinessKey(businessKey, page, pageSize)
+				userResponse = getResponses("page", "page size", "business key");
+				System.console().writer().println(jobConsole.getRequestsByBusinessKey(userResponse.get(2),
+						userResponse.get(0), userResponse.get(1)));
 				break;
 			case "getrequestsbycommand":
-				//jobServices.getRequestsByCommand(command, page, pageSize)
+				userResponse = getResponses("page", "page size", "command");
+				System.console().writer().println(jobConsole.getRequestsByCommand(userResponse.get(2), userResponse.get(0), userResponse.get(1)));
 				break;
 			case "getrequestbyid":
-				//jobServices.getRequestById(requestId, withErrors, withData)
+				userResponse = getResponses("request ID", "return results with errors? (true or false)", "return results with data? (true or false)");
+				System.console().writer().println(jobConsole.getRequestById(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 				break;
 			//Kie commands
 			case "getserverstatus":

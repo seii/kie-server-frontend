@@ -19,9 +19,9 @@ import org.kie.server.client.KieServicesFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BPMSJMSProxy implements BpmsProxyInterface
+public class BpmsJmsProxy implements BpmsProxyInterface
 {
-    private static Logger logger = LoggerFactory.getLogger(BPMSJMSProxy.class);
+    private static Logger logger = LoggerFactory.getLogger(BpmsJmsProxy.class);
     
     private String initialContextFactoryName;
     private String connectionFactoryName;
@@ -47,7 +47,7 @@ public class BPMSJMSProxy implements BpmsProxyInterface
 		return logger;
 	}
 	
-	public BPMSJMSProxy(String username, String password, String remotingURL, String containerId)
+	public BpmsJmsProxy(String username, String password, String remotingURL, String containerId)
 	{
 	    this.username = username;
 	    this.password = password;
@@ -56,7 +56,7 @@ public class BPMSJMSProxy implements BpmsProxyInterface
 	    init();
 	}
 	
-	public BPMSJMSProxy()
+	public BpmsJmsProxy()
 	{
 		configurationProps = retrieveProperties();
 		

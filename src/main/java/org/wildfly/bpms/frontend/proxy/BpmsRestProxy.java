@@ -15,9 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class BPMSRestProxy implements BpmsProxyInterface
+public class BpmsRestProxy implements BpmsProxyInterface
 {
-    private static Logger logger = LoggerFactory.getLogger(BPMSRestProxy.class);
+    private static Logger logger = LoggerFactory.getLogger(BpmsRestProxy.class);
     
 	private String bpmsUserName;
     private String bpmsPassword;
@@ -28,7 +28,7 @@ public class BPMSRestProxy implements BpmsProxyInterface
     
     private Properties config;
 
-    public BPMSRestProxy()
+    public BpmsRestProxy()
     {
         config = retrieveProperties();
         
@@ -42,7 +42,7 @@ public class BPMSRestProxy implements BpmsProxyInterface
         }
     }
     
-    public BPMSRestProxy(String bpmsUserName, String bpmsPassword, String bpmsURL, String containerId)
+    public BpmsRestProxy(String bpmsUserName, String bpmsPassword, String bpmsURL, String containerId)
     {
         super();
     	this.bpmsUserName = bpmsUserName;
@@ -64,7 +64,7 @@ public class BPMSRestProxy implements BpmsProxyInterface
 
 	@Override
 	public Logger getLogger() {
-		return BPMSRestProxy.logger;
+		return BpmsRestProxy.logger;
 	}
 
 	@Override

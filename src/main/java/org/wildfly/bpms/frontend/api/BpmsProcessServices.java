@@ -18,7 +18,7 @@ import org.kie.server.client.KieServicesClient;
 import org.kie.server.client.ProcessServicesClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wildfly.bpms.frontend.exception.BPMSFrontendException;
+import org.wildfly.bpms.frontend.exception.BpmsFrontendException;
 
 public class BpmsProcessServices {
 	
@@ -91,9 +91,9 @@ public class BpmsProcessServices {
      * @param variables
      *            Must not be null
      * @return
-     * @throws BPMSFrontendException
+     * @throws BpmsFrontendException
      */
-    public Long startProcessWithVars(String processName, Map<String, Object> variables) throws BPMSFrontendException
+    public Long startProcessWithVars(String processName, Map<String, Object> variables) throws BpmsFrontendException
     {
     	logger.debug("Entering startProcessWithVars");
     	
@@ -104,15 +104,15 @@ public class BpmsProcessServices {
         } catch (RuntimeException e) {
             String errorMessage = "Error starting process with name: " + processName + " error: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         } catch (Exception e) {
             String errorMessage = "Error creating environment DTO: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         }
     }
     
-    public Long startProcess(String processName) throws BPMSFrontendException {
+    public Long startProcess(String processName) throws BpmsFrontendException {
     	logger.debug("Entering startProcess");
     	
         try {
@@ -122,15 +122,15 @@ public class BpmsProcessServices {
         } catch (RuntimeException e) {
             String errorMessage = "Error starting process with name: " + processName + " error: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         } catch (Exception e) {
             String errorMessage = "Error creating environment DTO: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         }
     }
     
-    public Long startProcessWithKey(String processName, CorrelationKey correlationKey) throws BPMSFrontendException {
+    public Long startProcessWithKey(String processName, CorrelationKey correlationKey) throws BpmsFrontendException {
     	logger.debug("Entering startProcessWithKey");
     	
         try {
@@ -140,16 +140,16 @@ public class BpmsProcessServices {
         } catch (RuntimeException e) {
             String errorMessage = "Error starting process with name: " + processName + " error: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         } catch (Exception e) {
             String errorMessage = "Error creating environment DTO: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         }
     }
     
     public Long startProcessWithKeyWithVars(String processName, CorrelationKey correlationKey, Map<String, Object> variables)
-    		throws BPMSFrontendException {
+    		throws BpmsFrontendException {
     	logger.debug("Entering startProcessWithKeyWithVars");
     	
         try {           
@@ -159,11 +159,11 @@ public class BpmsProcessServices {
         } catch (RuntimeException e) {
             String errorMessage = "Error starting process with name: " + processName + " error: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         } catch (Exception e) {
             String errorMessage = "Error creating environment DTO: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         }
     }
     
@@ -230,7 +230,7 @@ public class BpmsProcessServices {
         		.getProcessInstanceVariables(getContainerId(), processInstanceId);
     }
     
-    public void signalProcessInstance(Long processInstanceId, String signalName, Object event) throws BPMSFrontendException {
+    public void signalProcessInstance(Long processInstanceId, String signalName, Object event) throws BpmsFrontendException {
     	logger.debug("Executing signalProcessInstance");
     	try {
 	    	getKieServicesClient().getServicesClient(ProcessServicesClient.class)
@@ -239,11 +239,11 @@ public class BpmsProcessServices {
             String errorMessage = "Error signalling process with id: " + processInstanceId + " signal: " +
             		signalName + " error: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         }
     }
     
-    public void signalProcessInstances(List<Long> processInstanceId, String signalName, Object event) throws BPMSFrontendException {
+    public void signalProcessInstances(List<Long> processInstanceId, String signalName, Object event) throws BpmsFrontendException {
     	logger.debug("Executing signalProcessInstances");
     	
     	try {
@@ -253,11 +253,11 @@ public class BpmsProcessServices {
             String errorMessage = "Error signalling list of processes using signal: " +
             		signalName + " error: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         }
     }
     
-    public void signal(String signalName, Object event) throws BPMSFrontendException {
+    public void signal(String signalName, Object event) throws BpmsFrontendException {
     	logger.debug("Executing signal");
     	
     	try {
@@ -266,7 +266,7 @@ public class BpmsProcessServices {
     	} catch (RuntimeException e) {
             String errorMessage = "Error sending signal: " + signalName + " error: " + e.getMessage();
             logger.error(errorMessage, e);
-            throw new BPMSFrontendException(errorMessage);
+            throw new BpmsFrontendException(errorMessage);
         }
     }
     
