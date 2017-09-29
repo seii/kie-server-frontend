@@ -48,15 +48,9 @@ public class BpmsKieServices {
         }
     }
     
-    public KieContainerResource createContainer(String containerId, String groupId,
-    															String artifactId, String versionId) {
+    public KieContainerResource createContainer(String containerId, ReleaseId releaseId) {
     	logger.debug("Entering createContainer");
     	KieContainerResource newContainer = new KieContainerResource();
-    	ReleaseId releaseId = new ReleaseId();
-    	releaseId.setGroupId(groupId);
-    	releaseId.setArtifactId(artifactId);
-    	releaseId.setVersion(versionId);
-    	newContainer.setReleaseId(releaseId);
     	ServiceResponse<KieContainerResource> createResponse = getKieServicesClient().createContainer(containerId, newContainer);
     	
         if(createResponse.getType() == ResponseType.FAILURE) {

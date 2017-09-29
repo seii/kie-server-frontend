@@ -68,17 +68,19 @@ public class BpmsJobConsole extends BpmsJobServices {
 		return result;
 	}
 	
-	public void cancelRequest(String requestId) {
+	public String cancelRequestConsole(String requestId) {
 		logger.debug("Executing cancelRequest");
 		getKieServicesClient().getServicesClient(JobServicesClient.class).cancelRequest(Long.valueOf(requestId));
+		return String.format("Called API to cancel request ID %s%n", requestId);
 	}
 	
-	public void requeueRequest(String requestId) {
+	public String requeueRequestConsole(String requestId) {
 		logger.debug("Executing requeueRequest");
 		getKieServicesClient().getServicesClient(JobServicesClient.class).requeueRequest(Long.valueOf(requestId));
+		return String.format("Called API to requeue request ID %s%n", requestId);
 	}
 
-	public List<String> getRequestsByStatus(String page, String pageSize, String[] statuses) {
+	public List<String> getRequestsByStatusConsole(String page, String pageSize, String[] statuses) {
 		logger.debug("Executing getRequestsByStatus");
 		List<String> requestList = new ArrayList<>(1);
 		for(int i = 0; i < statuses.length; i++) {
@@ -92,7 +94,7 @@ public class BpmsJobConsole extends BpmsJobServices {
 		return resultList;
 	}
 	
-	public List<String> getRequestsByBusinessKey(String businessKey, String page, String pageSize) {
+	public List<String> getRequestsByBusinessKeyConsole(String businessKey, String page, String pageSize) {
 		logger.debug("Executing getRequestsByBusinessKey");
 		
 		List<RequestInfoInstance> instanceList = getKieServicesClient().getServicesClient(JobServicesClient.class)
@@ -102,7 +104,7 @@ public class BpmsJobConsole extends BpmsJobServices {
 		return requestList;
 	}
 	
-	public List<String> getRequestsByCommand(String command, String page, String pageSize) {
+	public List<String> getRequestsByCommandConsole(String command, String page, String pageSize) {
 		logger.debug("Executing getRequestsByCommand");
 		List<RequestInfoInstance> instanceList = getKieServicesClient().getServicesClient(JobServicesClient.class)
 				.getRequestsByCommand(command, Integer.valueOf(page), Integer.valueOf(pageSize));
@@ -111,10 +113,14 @@ public class BpmsJobConsole extends BpmsJobServices {
 		return requestList;
 	}
 	
-	public RequestInfoInstance getRequestById(String requestId, String withErrors, String withData) {
+	public String getRequestByIdConsole(String requestId, String withErrors, String withData) {
 		logger.debug("Executing getRequestById");
-		return getKieServicesClient().getServicesClient(JobServicesClient.class).getRequestById(
-				Long.valueOf(requestId), Boolean.valueOf(withErrors), Boolean.valueOf(withData));
+		RequestInfoInstance infoInstance = getKieServicesClient().getServicesClient(JobServicesClient.class)
+				.getRequestById(Long.valueOf(requestId), Boolean.valueOf(withErrors), Boolean.valueOf(withData));
+		ArrayList<RequestInfoInstance> instanceList = new ArrayList<>(1);
+		instanceList.add(0, infoInstance);
+		List<String> requestList = convertRequestInfoInstanceToString(instanceList, Constants.NO_REQUEST_FOUND_BY_ID);
+		return requestList.get(0);
 	}
 	
 	private List<String> convertRequestInfoInstanceToString(List<RequestInfoInstance> instanceList, String errorMsg) {

@@ -1,5 +1,6 @@
 package org.wildfly.bpms.frontend.application;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.wildfly.bpms.frontend.api.console.BpmsQueryConsole;
 import org.wildfly.bpms.frontend.api.console.BpmsUIConsole;
 import org.wildfly.bpms.frontend.api.console.BpmsUserTaskConsole;
 import org.wildfly.bpms.frontend.constants.Constants;
+import org.wildfly.bpms.frontend.exception.BpmsFrontendException;
 import org.wildfly.bpms.frontend.proxy.BpmsJmsProxy;
 import org.wildfly.bpms.frontend.proxy.BpmsProxyInterface;
 import org.wildfly.bpms.frontend.proxy.BpmsRestProxy;
@@ -74,418 +76,489 @@ public class Main {
 	
 	private static void executeCommand(String command) {
 		ArrayList<String> userResponse = new ArrayList<>(1);
+		PrintWriter pw = System.console().writer();
 		
-		switch(command) {
-		//Job commands
-			case "schedulerequest":
-				userResponse = getResponses("command", "date (in MM-dd-yyyy format)",
-						"data (comma separated)", "container ID");
-				System.console().writer().println(jobConsole.scheduleRequestConsole(userResponse.get(0),
-						userResponse.get(1), userResponse.get(2).split(","), userResponse.get(3)));
-				break;
-			case "cancelrequest":
-				userResponse = getResponses("request ID");
-				jobConsole.cancelRequest(userResponse.get(0));
-				break;
-			case "requeuerequest":
-				userResponse = getResponses("request ID");
-				jobConsole.requeueRequest(userResponse.get(0));
-				break;
-			case "getrequestsbystatus":
-				userResponse = getResponses("page", "page size", "statuses (comma separated)");
-				System.console().writer().println(jobConsole.getRequestsByStatus(userResponse.get(0), userResponse.get(1),
-						userResponse.get(2).split(",")));
-				break;
-			case "getrequestsbybusinesskey":
-				userResponse = getResponses("page", "page size", "business key");
-				System.console().writer().println(jobConsole.getRequestsByBusinessKey(userResponse.get(2),
-						userResponse.get(0), userResponse.get(1)));
-				break;
-			case "getrequestsbycommand":
-				userResponse = getResponses("page", "page size", "command");
-				System.console().writer().println(jobConsole.getRequestsByCommand(userResponse.get(2), userResponse.get(0), userResponse.get(1)));
-				break;
-			case "getrequestbyid":
-				userResponse = getResponses("request ID", "return results with errors? (true or false)", "return results with data? (true or false)");
-				System.console().writer().println(jobConsole.getRequestById(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
-				break;
-			//Kie commands
-			case "getserverstatus":
-				System.console().writer().println(kieConsole.getServerStatusConsole());
-				break;
-			case "destroycontainer":
-				//TODO:
-				break;
-			case "createcontainer":
-				//TODO:
-				break;
-			case "listcontainers":
-				//TODO:
-				break;
-			case "listcontainersbyfilter":
-				break;
-			case "getcontainerinfo":
-				//TODO:
-				break;
-			case "getscannerinfo":
-				break;
-			case "updatescanner":
-				break;
-			case "updatereleaseid":
-				//TODO:
-				break;
-			//Process commands
-			case "getprocessdefinition":
-				userResponse = getResponses("process ID");
-				System.console().writer().println(processConsole.getProcessDefinitionConsole(userResponse.get(0)));
-				break;
-			case "getreusablesubprocessdefinitions":
-				break;
-			case "getprocessvariabledefinitions":
-				break;
-			case "getservicetaskdefinitions":
-				break;
-			case "getassociatedentitydefinitions":
-				break;
-			case "getusertaskdefinitions":
-				break;
-			case "getusertaskinputdefinitions":
-				break;
-			case "getusertaskoutputdefinitions":
-				break;
-			case "startprocesswithvars":
-				//TODO:
-				break;
-			case "startprocess":
-				//TODO:
-				break;
-			case "startprocesswithkey":
-				break;
-			case "startprocesswithkeywithvars":
-				break;
-			case "abortprocessinstance":
-				//TODO:
-				break;
-			case "abortprocessinstances":
-				//TODO:
-				break;
-			case "getprocessinstancevariable":
-				//TODO:
-				break;
-			case "getprocessinstancevariablebytype":
-				break;
-			case "isprocessfinished":
-				//TODO:
-				break;
-			case "processcompletedsuccessfully":
-				//TODO:
-				break;
-			case "getprocessinstancevariables":
-				//TODO:
-				break;
-			case "signalprocessinstance":
-				//TODO:
-				break;
-			case "signalprocessinstances":
-				//TODO:
-				break;
-			case "signal":
-				break;
-			case "getavailablesignals":
-				break;
-			case "setprocessvariable":
-				//TODO:
-				break;
-			case "setprocessvariables":
-				//TODO:
-				break;
-			case "getprocessinstance":
-				//TODO:
-				break;
-			case "getprocessinstancewithvars":
-				//TODO:
-				break;
-			case "completeworkitem":
-				break;
-			case "abortworkitem":
-				break;
-			case "getworkitem":
-				break;
-			case "getworkitembyprocessinstances":
-				break;
-			//Query commands
-			case "findprocessdefinitionsbycontaineridprocessid":
-				break;
-			case "findprocessdefinitionsbyid":
-				//TODO:
-				break;
-			case "findprocessdefinitions":
-				userResponse = getResponses("page", "page size");
-				System.console().writer().println(queryConsole.findProcessDefinitionsConsole(userResponse.get(0),
-						userResponse.get(1)));
-				break;
-			case "findprocessdefinitionsbyfilter":
-				break;
-			case "findprocessdefinitionsbycontainerid":
-				//TODO:
-				break;
-			case "findprocessdefinitionswithsort":
-				break;
-			case "findprocessdefinitionswithsortwithfilter":
-				break;
-			case "findprocessdefinitionsbycontaineridwithsort":
-				break;
-			case "findprocessinstances":
-				//TODO:
-				break;
-			case "findprocessinstancesbycorrelationkey":
-				break;
-			case "findprocessinstancesbyprocessid":
-				//TODO:
-				break;
-			case "findprocessinstancesbyprocessname":
-				//TODO:
-				break;
-			case "findprocessinstancesbycontainerid":
-				//TODO:
-				break;
-			case "findprocessinstancesbystatus":
-				break;
-			case "findprocessinstancesbyinitiator":
-				break;
-			case "findprocessinstancesbyvariable":
-				break;
-			case "findprocessinstancesbyvariableandvalue":
-				break;
-			case "findprocessinstanceswithsort":
-				break;
-			case "findprocessinstancesbycorrelationkeywithsort":
-				break;
-			case "findprocessinstancesbyprocessidwithsort":
-				break;
-			case "findprocessinstancesbyprocessnamewithsort":
-				break;
-			case "findprocessinstancesbycontaineridwithsort":
-				break;
-			case "findprocessinstancesbystatuswithsort":
-				break;
-			case "findprocessinstancesbyinitiatorwithsort":
-				break;
-			case "findprocessinstancesbyvariablewithsort":
-				break;
-			case "findprocessinstancesbyvariableandvaluewithsort":
-				break;
-			case "findprocessinstancebyid":
-				//TODO:
-				break;
-			case "findprocessinstancebyidwithvars":
-				//TODO:
-				break;
-			case "findprocessinstancebycorrelationkey":
-				break;
-			case "findnodeinstancebyworkitemid":
-				break;
-			case "findactivenodeinstances":
-				break;
-			case "findcompletednodeinstances":
-				break;
-			case "findnodeinstances":
-				break;
-			case "findvariablescurrentstate":
-				break;
-			case "findvariableshistory":
-				break;
-			case "registerquery":
-				break;
-			case "replacequery":
-				break;
-			case "unregisterquery":
-				break;
-			case "getquery":
-				break;
-			case "getqueries":
-				break;
-			case "query":
-				break;
-			case "querywithorderby":
-				break;
-			case "querywithcolumnmapping":
-				break;
-			case "querywithparameters":
-				break;
-			//UI commands
-			case "getprocessformbylanguage":
-				break;
-			case "getprocessform":
-				break;
-			case "gettaskformbylanguage":
-				break;
-			case "gettaskform":
-				break;
-			case "getprocessimage":
-				userResponse = getResponses("process ID");
-				System.console().writer().println(uiConsole.getProcessImageConsole(userResponse.get(0)));
-				break;
-			case "getprocessinstanceimage":
-				break;
-			//User Task commands
-			case "activatetask":
-				userResponse = getResponses("task ID", "user ID");
-				System.console().writer().println(String.format(Constants.SENDING_COMMAND, "activatetask"));
-				userTaskConsole.activateTaskConsole(userResponse.get(0), userResponse.get(1));
-				break;
-			case "claimtask":
-				//TODO:
-				break;
-			case "completetask":
-				//TODO:
-				break;
-			case "completeautoprogress":
-				break;
-			case "delegatetask":
-				//TODO:
-				break;
-			case "exittask":
-				//TODO:
-				break;
-			case "failtask":
-				break;
-			case "forwardtask":
-				break;
-			case "releasetask":
-				//TODO:
-				break;
-			case "resumetask":
-				//TODO:
-				break;
-			case "skiptask":
-				break;
-			case "starttask":
-				//TODO:
-				break;
-			case "stoptask":
-				//TODO:
-				break;
-			case "suspendtask":
-				//TODO:
-				break;
-			case "nominatetask":
-				break;
-			case "settaskpriority":
-				break;
-			case "settaskexpirationdate":
-				//TODO:
-				break;
-			case "settaskskipable":
-				break;
-			case "settaskname":
-				break;
-			case "settaskdescription":
-				break;
-			case "savetaskcontent":
-				break;
-			case "gettaskoutputcontentbytaskid":
-				//TODO:
-				break;
-			case "gettaskinputcontentbytaskid":
-				//TODO:
-				break;
-			case "deletetaskcontent":
-				break;
-			case "addtaskcomment":
-				//TODO:
-				break;
-			case "deletetaskcomment":
-				//TODO:
-				break;
-			case "gettaskcommentsbytaskid":
-				//TODO:
-				break;
-			case "gettaskcommentbyid":
-				break;
-			case "addtaskattachment":
-				break;
-			case "deletetaskattachment":
-				break;
-			case "gettaskattachmentbyid":
-				break;
-			case "gettaskattachmentcontentbyid":
-				break;
-			case "gettaskattachmentsbytaskid":
-				break;
-			case "gettaskinstance":
-				//TODO:
-				break;
-			case "gettaskinstancewithinputoutput":
-				//TODO:
-				break;
-			case "findtaskbyworkitemid":
-				break;
-			case "findtaskbyid":
-				//TODO:
-				break;
-			case "findtasksassignedasbusinessadministrator":
-				break;
-			case "findtasksassignedasbusinessadministratorwithstatus":
-				break;
-			case "findtasksassignedaspotentialowner":
-				break;
-			case "findtasksassignedaspotentialownerwithstatus":
-				break;
-			case "findtasksassignedaspotentialownerwithgroups":
-				break;
-			case "findtasksowned":
-				break;
-			case "findtasksownedwithstatuses":
-				break;
-			case "findtasksbystatusbyprocessinstanceid":
-				break;
-			case "findtasks":
-				//TODO:
-				break;
-			case "findtaskevents":
-				break;
-			case "findtasksbyvariable":
-				break;
-			case "findtasksbyvariableandvalue":
-				break;
-			case "findtasksassignedasbusinessadministratorwithsort":
-				break;
-			case "findtasksassignedasbusinessadministratorwithstatuswithsort":
-				break;
-			case "findtasksassignedaspotentialowners":
-				break;
-			case "findtasksassignedaspotentialownerwithstatuswithsort":
-				break;
-			case "findtasksassignedaspotentialownerwithgroupswithsort":
-				break;
-			case "findtasksownedwithsort":
-				break;
-			case "findtasksownedwithstatus":
-				break;
-			case "findtasksbystatusbyprocessinstanceidwithsort":
-				break;
-			case "findtaskswithsort":
-				break;
-			case "findtaskeventswithsort":
-				break;
-			case "findtasksbyvariablewithsort":
-				break;
-			case "findtasksbyvariableandvaluewithsort":
-				break;
-			case "claimstartcompletehumantask":
-				//TODO:
-				break;
-			case "getinputdata":
-				//TODO:
-				break;
-			case "getoutputdata":
-				//TODO:
-				break;
-			default:
-				logger.error("Invalid command {} was entered, please enter a valid command.", command);
-				exit();
-				break;
+		try {
+		
+			switch(command) {
+			//Job commands
+				case "schedulerequest":
+					userResponse = getResponses("command", "date (in MM-dd-yyyy format)",
+							"data (comma separated)", "container ID");
+					pw.println(jobConsole.scheduleRequestConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2).split(","), userResponse.get(3)));
+					break;
+				case "cancelrequest":
+					userResponse = getResponses("request ID");
+					pw.println(jobConsole.cancelRequestConsole(userResponse.get(0)));
+					break;
+				case "requeuerequest":
+					userResponse = getResponses("request ID");
+					pw.println(jobConsole.requeueRequestConsole(userResponse.get(0)));
+					break;
+				case "getrequestsbystatus":
+					userResponse = getResponses("page", "page size", "statuses (comma separated)");
+					pw.println(jobConsole.getRequestsByStatusConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2).split(",")));
+					break;
+				case "getrequestsbybusinesskey":
+					userResponse = getResponses("page", "page size", "business key");
+					pw.println(jobConsole.getRequestsByBusinessKeyConsole(userResponse.get(2),
+							userResponse.get(0), userResponse.get(1)));
+					break;
+				case "getrequestsbycommand":
+					userResponse = getResponses("page", "page size", "command");
+					pw.println(jobConsole.getRequestsByCommandConsole(userResponse.get(2), userResponse.get(0), userResponse.get(1)));
+					break;
+				case "getrequestbyid":
+					userResponse = getResponses("request ID", "return results with errors? (true or false)", "return results with data? (true or false)");
+					pw.println(jobConsole.getRequestByIdConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
+					break;
+				//Kie commands
+				case "getserverstatus":
+					pw.println(kieConsole.getServerStatusConsole());
+					break;
+				case "destroycontainer":
+					userResponse = getResponses("container ID");
+					kieConsole.destroyContainer(userResponse.get(0));
+					break;
+				case "createcontainer":
+					userResponse = getResponses("container ID", "group ID", "artifact ID", "version ID");
+					pw.println(kieConsole.createContainerConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2),
+							userResponse.get(3)));
+					break;
+				case "listcontainers":
+					pw.println(kieConsole.listContainersConsole());
+					break;
+				case "listcontainersbyfilter":
+					userResponse = getResponses("group ID", "artifact ID", "version ID", "statuses (comma separated)");
+					pw.println(kieConsole.listContainersByFilterConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2), userResponse.get(3).split(",")));
+					break;
+				case "getcontainerinfo":
+					userResponse = getResponses("container ID");
+					pw.println(kieConsole.getContainerInfoConsole(userResponse.get(0)));
+					break;
+				case "getscannerinfo":
+					userResponse = getResponses("container ID");
+					pw.println(kieConsole.getScannerInfoConsole(userResponse.get(0)));
+					break;
+				case "updatescanner":
+					userResponse = getResponses("container ID", "interval in seconds (0 for none)", "scanner status");
+					pw.println(kieConsole.updateScannerConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
+					break;
+				case "updatereleaseid":
+					userResponse = getResponses("container ID", "group ID", "artifact ID", "version ID");
+					pw.println(kieConsole.updateReleaseIdConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2), userResponse.get(3)));
+					break;
+				//Process commands
+				case "getprocessdefinition":
+					userResponse = getResponses("process definition ID");
+					pw.println(processConsole.getProcessDefinitionConsole(userResponse.get(0)));
+					break;
+				case "getreusablesubprocessdefinitions":
+					userResponse = getResponses("process definition ID");
+					pw.println(processConsole.getReusableSubProcessDefinitionsConsole(userResponse.get(0)));
+					break;
+				case "getprocessvariabledefinitions":
+					userResponse = getResponses("process definition ID");
+					pw.println(processConsole.getProcessVariableDefinitionsConsole(userResponse.get(0)));
+					break;
+				case "getservicetaskdefinitions":
+					userResponse = getResponses("process definition ID");
+					pw.println(processConsole.getServiceTaskDefinitionsConsole(userResponse.get(0)));
+					break;
+				case "getassociatedentitydefinitions":
+					userResponse = getResponses("process definition ID");
+					pw.println(processConsole.getAssociatedEntityDefinitionsConsole(userResponse.get(0)));
+					break;
+				case "getusertaskdefinitions":
+					userResponse = getResponses("process definition ID");
+					pw.println(processConsole.getUserTaskDefinitionsConsole(userResponse.get(0)));
+					break;
+				case "getusertaskinputdefinitions":
+					userResponse = getResponses("process definition ID", "task name");
+					pw.println(processConsole.getUserTaskInputDefinitionsConsole(userResponse.get(0), userResponse.get(1)));
+					break;
+				case "getusertaskoutputdefinitions":
+					userResponse = getResponses("process definition ID", "task name");
+					pw.println(processConsole.getUserTaskOutputDefinitionsConsole(userResponse.get(0), userResponse.get(1)));
+					break;
+				case "startprocesswithvars":
+					userResponse = getResponses("process name", "variables");
+					pw.println(processConsole.startProcessWithVarsConsole(userResponse.get(0), userResponse.get(1).split(",")));
+					break;
+				case "startprocess":
+					userResponse = getResponses("process name");
+					pw.println(processConsole.startProcess(userResponse.get(0)));
+					break;
+				case "startprocesswithkey":
+					//TODO: Need to find a way to supply a CorrelationKey from the console
+					//userResponse = getResponses("", "");
+					//pw.println(processConsole.startProcessWithKeyConsole(userResponse.get(0), userResponse.get(1)));
+					break;
+				case "startprocesswithkeywithvars":
+					//TODO: Need to find a way to supply a CorrelationKey from the console
+					break;
+				case "abortprocessinstance":
+					userResponse = getResponses("process instance ID");
+					pw.println(processConsole.abortProcessInstanceConsole(userResponse.get(0)));
+					break;
+				case "abortprocessinstances":
+					userResponse = getResponses("process instance IDs (comma-separated)");
+					pw.println(processConsole.abortProcessInstancesConsole(userResponse.get(0)));
+					break;
+				case "getprocessinstancevariable":
+					userResponse = getResponses("process instance ID", "variable name");
+					pw.println(processConsole.getProcessInstanceVariableConsole(userResponse.get(0), userResponse.get(1)));
+					break;
+				case "getprocessinstancevariablebytype":
+					userResponse = getResponses("process instance ID", "variable name", "variable data type");
+					pw.println(processConsole.getProcessInstanceVariableByTypeConsole(
+							userResponse.get(0), userResponse.get(1), userResponse.get(2)));
+					break;
+				case "isprocessfinished":
+					userResponse = getResponses("process instance ID");
+					pw.println(processConsole.isProcessFinishedConsole(userResponse.get(0)));
+					break;
+				case "processcompletedsuccessfully":
+					userResponse = getResponses("process instance ID");
+					pw.println(processConsole.processCompletedSuccessfullyConsole(userResponse.get(0)));
+					break;
+				case "getprocessinstancevariables":
+					userResponse = getResponses("process instance ID");
+					pw.println(processConsole.getProcessInstanceVariablesConsole(userResponse.get(0)));
+					break;
+				case "signalprocessinstance":
+					userResponse = getResponses("process instance ID", "signal name", "event type");
+					pw.println(processConsole.signalProcessInstanceConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2)));
+					break;
+				case "signalprocessinstances":
+					userResponse = getResponses("process instance IDs (comma-separated)", "signal name", "event data type");
+					pw.println(processConsole.signalProcessInstancesConsole(userResponse.get(1),
+							userResponse.get(2), userResponse.get(0)));
+					break;
+				case "signal":
+					userResponse = getResponses("signal name", "event data type");
+					pw.println(processConsole.signalConsole(userResponse.get(0), userResponse.get(1)));
+					break;
+				case "getavailablesignals":
+					userResponse = getResponses("process instance ID");
+					pw.println(processConsole.getAvailableSignalsConsole(userResponse.get(0)));
+					break;
+				case "setprocessvariable":
+					userResponse = getResponses("process instance ID", "variable name", "variable value");
+					pw.println(processConsole.setProcessVariableConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2)));
+					break;
+				case "setprocessvariables":
+					userResponse = getResponses("process instance ID",
+							"variables (in the format key1=value1,key2=value2, etc.)");
+					pw.println(processConsole.setProcessVariablesConsole(userResponse.get(0), userResponse.get(1)));
+					break;
+				case "getprocessinstance":
+					userResponse = getResponses("process instance ID");
+					pw.println(processConsole.getProcessInstanceConsole(userResponse.get(0)));
+					break;
+				case "getprocessinstancewithvars":
+					userResponse = getResponses("process instance ID");
+					pw.println(processConsole.getProcessInstanceWithVarsConsole(userResponse.get(0)));
+					break;
+				case "completeworkitem":
+					userResponse = getResponses("process instance ID", "work item ID", "results");
+					pw.println(processConsole.completeWorkItemConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2)));
+					break;
+				case "abortworkitem":
+					userResponse = getResponses("process instance ID", "work item ID");
+					pw.println(processConsole.abortWorkItemConsole(userResponse.get(0), userResponse.get(1)));
+					break;
+				case "getworkitem":
+					userResponse = getResponses("process instance ID", "work item ID");
+					pw.println(processConsole.getWorkItemConsole(userResponse.get(0), userResponse.get(1)));
+					break;
+				case "getworkitembyprocessinstances":
+					userResponse = getResponses("process instance IDs (comma-separated)");
+					pw.println(processConsole.getWorkItemByProcessInstancesConsole(userResponse.get(0)));
+					break;
+				//Query commands
+				case "findprocessdefinitionsbycontaineridprocessid":
+					break;
+				case "findprocessdefinitionsbyid":
+					//TODO:
+					break;
+				case "findprocessdefinitions":
+					userResponse = getResponses("page", "page size");
+					pw.println(queryConsole.findProcessDefinitionsConsole(userResponse.get(0),
+							userResponse.get(1)));
+					break;
+				case "findprocessdefinitionsbyfilter":
+					break;
+				case "findprocessdefinitionsbycontainerid":
+					//TODO:
+					break;
+				case "findprocessdefinitionswithsort":
+					break;
+				case "findprocessdefinitionswithsortwithfilter":
+					break;
+				case "findprocessdefinitionsbycontaineridwithsort":
+					break;
+				case "findprocessinstances":
+					//TODO:
+					break;
+				case "findprocessinstancesbycorrelationkey":
+					break;
+				case "findprocessinstancesbyprocessid":
+					//TODO:
+					break;
+				case "findprocessinstancesbyprocessname":
+					//TODO:
+					break;
+				case "findprocessinstancesbycontainerid":
+					//TODO:
+					break;
+				case "findprocessinstancesbystatus":
+					break;
+				case "findprocessinstancesbyinitiator":
+					break;
+				case "findprocessinstancesbyvariable":
+					break;
+				case "findprocessinstancesbyvariableandvalue":
+					break;
+				case "findprocessinstanceswithsort":
+					break;
+				case "findprocessinstancesbycorrelationkeywithsort":
+					break;
+				case "findprocessinstancesbyprocessidwithsort":
+					break;
+				case "findprocessinstancesbyprocessnamewithsort":
+					break;
+				case "findprocessinstancesbycontaineridwithsort":
+					break;
+				case "findprocessinstancesbystatuswithsort":
+					break;
+				case "findprocessinstancesbyinitiatorwithsort":
+					break;
+				case "findprocessinstancesbyvariablewithsort":
+					break;
+				case "findprocessinstancesbyvariableandvaluewithsort":
+					break;
+				case "findprocessinstancebyid":
+					//TODO:
+					break;
+				case "findprocessinstancebyidwithvars":
+					//TODO:
+					break;
+				case "findprocessinstancebycorrelationkey":
+					break;
+				case "findnodeinstancebyworkitemid":
+					break;
+				case "findactivenodeinstances":
+					break;
+				case "findcompletednodeinstances":
+					break;
+				case "findnodeinstances":
+					break;
+				case "findvariablescurrentstate":
+					break;
+				case "findvariableshistory":
+					break;
+				case "registerquery":
+					break;
+				case "replacequery":
+					break;
+				case "unregisterquery":
+					break;
+				case "getquery":
+					break;
+				case "getqueries":
+					break;
+				case "query":
+					break;
+				case "querywithorderby":
+					break;
+				case "querywithcolumnmapping":
+					break;
+				case "querywithparameters":
+					break;
+				//UI commands
+				case "getprocessformbylanguage":
+					break;
+				case "getprocessform":
+					break;
+				case "gettaskformbylanguage":
+					break;
+				case "gettaskform":
+					break;
+				case "getprocessimage":
+					userResponse = getResponses("process ID");
+					pw.println(uiConsole.getProcessImageConsole(userResponse.get(0)));
+					break;
+				case "getprocessinstanceimage":
+					break;
+				//User Task commands
+				case "activatetask":
+					userResponse = getResponses("task ID", "user ID");
+					pw.println(String.format(Constants.SENDING_COMMAND, "activatetask"));
+					userTaskConsole.activateTaskConsole(userResponse.get(0), userResponse.get(1));
+					break;
+				case "claimtask":
+					//TODO:
+					break;
+				case "completetask":
+					//TODO:
+					break;
+				case "completeautoprogress":
+					break;
+				case "delegatetask":
+					//TODO:
+					break;
+				case "exittask":
+					//TODO:
+					break;
+				case "failtask":
+					break;
+				case "forwardtask":
+					break;
+				case "releasetask":
+					//TODO:
+					break;
+				case "resumetask":
+					//TODO:
+					break;
+				case "skiptask":
+					break;
+				case "starttask":
+					//TODO:
+					break;
+				case "stoptask":
+					//TODO:
+					break;
+				case "suspendtask":
+					//TODO:
+					break;
+				case "nominatetask":
+					break;
+				case "settaskpriority":
+					break;
+				case "settaskexpirationdate":
+					//TODO:
+					break;
+				case "settaskskipable":
+					break;
+				case "settaskname":
+					break;
+				case "settaskdescription":
+					break;
+				case "savetaskcontent":
+					break;
+				case "gettaskoutputcontentbytaskid":
+					//TODO:
+					break;
+				case "gettaskinputcontentbytaskid":
+					//TODO:
+					break;
+				case "deletetaskcontent":
+					break;
+				case "addtaskcomment":
+					//TODO:
+					break;
+				case "deletetaskcomment":
+					//TODO:
+					break;
+				case "gettaskcommentsbytaskid":
+					//TODO:
+					break;
+				case "gettaskcommentbyid":
+					break;
+				case "addtaskattachment":
+					break;
+				case "deletetaskattachment":
+					break;
+				case "gettaskattachmentbyid":
+					break;
+				case "gettaskattachmentcontentbyid":
+					break;
+				case "gettaskattachmentsbytaskid":
+					break;
+				case "gettaskinstance":
+					//TODO:
+					break;
+				case "gettaskinstancewithinputoutput":
+					//TODO:
+					break;
+				case "findtaskbyworkitemid":
+					break;
+				case "findtaskbyid":
+					//TODO:
+					break;
+				case "findtasksassignedasbusinessadministrator":
+					break;
+				case "findtasksassignedasbusinessadministratorwithstatus":
+					break;
+				case "findtasksassignedaspotentialowner":
+					break;
+				case "findtasksassignedaspotentialownerwithstatus":
+					break;
+				case "findtasksassignedaspotentialownerwithgroups":
+					break;
+				case "findtasksowned":
+					break;
+				case "findtasksownedwithstatuses":
+					break;
+				case "findtasksbystatusbyprocessinstanceid":
+					break;
+				case "findtasks":
+					//TODO:
+					break;
+				case "findtaskevents":
+					break;
+				case "findtasksbyvariable":
+					break;
+				case "findtasksbyvariableandvalue":
+					break;
+				case "findtasksassignedasbusinessadministratorwithsort":
+					break;
+				case "findtasksassignedasbusinessadministratorwithstatuswithsort":
+					break;
+				case "findtasksassignedaspotentialowners":
+					break;
+				case "findtasksassignedaspotentialownerwithstatuswithsort":
+					break;
+				case "findtasksassignedaspotentialownerwithgroupswithsort":
+					break;
+				case "findtasksownedwithsort":
+					break;
+				case "findtasksownedwithstatus":
+					break;
+				case "findtasksbystatusbyprocessinstanceidwithsort":
+					break;
+				case "findtaskswithsort":
+					break;
+				case "findtaskeventswithsort":
+					break;
+				case "findtasksbyvariablewithsort":
+					break;
+				case "findtasksbyvariableandvaluewithsort":
+					break;
+				case "claimstartcompletehumantask":
+					//TODO:
+					break;
+				case "getinputdata":
+					//TODO:
+					break;
+				case "getoutputdata":
+					//TODO:
+					break;
+				default:
+					logger.error("Invalid command {} was entered, please enter a valid command.", command);
+					exit();
+					break;
+			}
+		} catch(BpmsFrontendException e) {
+			logger.error(e.getMessage());
 		}
 	}
 

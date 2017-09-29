@@ -19,6 +19,7 @@ public class Constants {
 	public static final String NO_REQUEST_FOUND_BY_STATUS = "No requests were found to be in the specified statuses";
 	public static final String NO_REQUEST_FOUND_BY_BUSINESS_KEY = "No requests were found to contain the specified business key";
 	public static final String NO_REQUEST_FOUND_BY_COMMAND = "No requests were found to be using the specified command";
+	public static final String NO_REQUEST_FOUND_BY_ID = "No requests were found using the specified ID";
 	
 	private Constants() {
 		
