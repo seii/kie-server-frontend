@@ -285,9 +285,12 @@ public class Main {
 					break;
 				//Query commands
 				case "findprocessdefinitionsbycontaineridprocessid":
+					userResponse = getResponses("process instance ID");
+					pw.println(queryConsole.findProcessDefinitionByContainerIdProcessIdConsole(userResponse.get(0)));
 					break;
 				case "findprocessdefinitionsbyid":
-					//TODO:
+					userResponse = getResponses("process instance IDs (comma-separated)");
+					pw.println(queryConsole.findProcessDefinitionsByIdConsole(userResponse.get(0)));
 					break;
 				case "findprocessdefinitions":
 					userResponse = getResponses("page", "page size");
@@ -295,93 +298,214 @@ public class Main {
 							userResponse.get(1)));
 					break;
 				case "findprocessdefinitionsbyfilter":
+					userResponse = getResponses("filter", "page", "page size");
+					pw.println(queryConsole.findProcessDefinitionsByFilterConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2)));
 					break;
 				case "findprocessdefinitionsbycontainerid":
-					//TODO:
+					userResponse = getResponses("page", "page size");
+					pw.println(queryConsole.findProcessDefinitionsByContainerIdConsole(userResponse.get(0),
+							userResponse.get(1)));
 					break;
 				case "findprocessdefinitionswithsort":
+					userResponse = getResponses("page", "page size", "order by", "sort order");
+					pw.println(queryConsole.findProcessDefinitionsWithSortConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findprocessdefinitionswithsortwithfilter":
+					userResponse = getResponses("filter", "page", "page size", "order by", "sort order");
+					pw.println(queryConsole.findProcessDefinitionsWithSortWithFilterConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findprocessdefinitionsbycontaineridwithsort":
+					userResponse = getResponses("page", "page size", "order by", "sort order");
+					pw.println(queryConsole.findProcessDefinitionsByContainerIdWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findprocessinstances":
-					//TODO:
+					userResponse = getResponses("page", "page size");
+					pw.println(queryConsole.findProcessInstancesConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "findprocessinstancesbycorrelationkey":
+					//userResponse = getResponses("", "", "");
+					//pw.println(queryConsole.findProcessInstancesByCorrelationKeyConsole(correlationKey, page, pageSize));
+					//TODO: Need to find a way to supply a CorrelationKey from the console
 					break;
 				case "findprocessinstancesbyprocessid":
-					//TODO:
+					userResponse = getResponses("process instance ID", "statuses (comma-separated)", "page", "page size");
+					pw.println(queryConsole.findProcessInstancesByProcessIdConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findprocessinstancesbyprocessname":
-					//TODO:
+					userResponse = getResponses("process name", "statuses (comma-seperated)", "page", "page size");
+					pw.println(queryConsole.findProcessInstancesByProcessNameConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findprocessinstancesbycontainerid":
-					//TODO:
+					userResponse = getResponses("statuses (comma-separated)", "page", "page size");
+					pw.println(queryConsole.findProcessInstancesByContainerIdConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2)));
 					break;
 				case "findprocessinstancesbystatus":
+					userResponse = getResponses("statuses (comma-separated)", "page", "page size");
+					pw.println(queryConsole.findProcessInstancesByStatusConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2)));
 					break;
 				case "findprocessinstancesbyinitiator":
+					userResponse = getResponses("initiator's name", "statuses (comma-separated)", "page", "page size");
+					pw.println(queryConsole.findProcessInstancesByInitiatorConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findprocessinstancesbyvariable":
+					userResponse = getResponses("variable name", "statuses (comma-separated)", "page", "page size");
+					pw.println(queryConsole.findProcessInstancesByVariableConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findprocessinstancesbyvariableandvalue":
+					userResponse = getResponses("variable name", "variable value", "statuses (comma-separated)",
+							"page", "page size");
+					pw.println(queryConsole.findProcessInstancesByVariableAndValueConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findprocessinstanceswithsort":
+					userResponse = getResponses("page", "page size", "sort by", "sort order");
+					pw.println(queryConsole.findProcessInstancesWithSortConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findprocessinstancesbycorrelationkeywithsort":
+					//TODO: Need to find a way to supply a CorrelationKey from the console
 					break;
 				case "findprocessinstancesbyprocessidwithsort":
+					userResponse = getResponses("process instance ID", "statuses (comma-separated)", "page",
+							"page size", "sort by", "sort order");
+					pw.println(queryConsole.findProcessInstancesByProcessIdWithSortConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
+							userResponse.get(5)));
 					break;
 				case "findprocessinstancesbyprocessnamewithsort":
+					userResponse = getResponses("process instance name", "statuses (comma-separated)", "page",
+							"page size", "sort by", "sort order");
+					pw.println(queryConsole.findProcessInstancesByProcessNameWithSortConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
+							userResponse.get(5)));
 					break;
 				case "findprocessinstancesbycontaineridwithsort":
+					userResponse = getResponses("statuses (comma-separated)", "page", "page size", "sort by", "sort order");
+					pw.println(queryConsole.findProcessInstancesByContainerIdWithSortConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findprocessinstancesbystatuswithsort":
+					userResponse = getResponses("statuses (comma-separated)", "page", "page size", "sort by", "sort order");
+					pw.println(queryConsole.findProcessInstancesByStatusWithSortConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findprocessinstancesbyinitiatorwithsort":
+					userResponse = getResponses("initiator name", "statuses (comma-separated", "page", "page size",
+							"sort by", "sort order");
+					pw.println(queryConsole.findProcessInstancesByInitiatorWithSortConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
+							userResponse.get(5)));
 					break;
 				case "findprocessinstancesbyvariablewithsort":
+					userResponse = getResponses("variable name", "statuses (comma-separated)", "page", "page size",
+							"sort by", "sort order");
+					pw.println(queryConsole.findProcessInstancesByVariableWithSortConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
+							userResponse.get(5)));
 					break;
 				case "findprocessinstancesbyvariableandvaluewithsort":
+					userResponse = getResponses("variable name", "variable value", "statuses (comma-separated)",
+							"page", "page size", "sort by", "sort order");
+					pw.println(queryConsole.findProcessInstancesByVariableAndValueWithSortConsole(userResponse.get(0),
+							userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
+							userResponse.get(5), userResponse.get(6)));
 					break;
 				case "findprocessinstancebyid":
-					//TODO:
+					userResponse = getResponses("process instance ID");
+					pw.println(queryConsole.findProcessInstanceByIdConsole(userResponse.get(0)));
 					break;
 				case "findprocessinstancebyidwithvars":
-					//TODO:
+					userResponse = getResponses("process instance ID");
+					pw.println(queryConsole.findProcessInstanceByIdWithVarsConsole(userResponse.get(0)));
 					break;
 				case "findprocessinstancebycorrelationkey":
+					//TODO: Need to find a way to supply a CorrelationKey from the console
 					break;
 				case "findnodeinstancebyworkitemid":
+					userResponse = getResponses("process instance ID", "work item ID");
+					pw.println(queryConsole.findNodeInstanceByWorkItemIdConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "findactivenodeinstances":
+					userResponse = getResponses("process instance ID", "page", "page size");
+					pw.println(queryConsole.findActiveNodeInstancesConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2)));
 					break;
 				case "findcompletednodeinstances":
+					userResponse = getResponses("process instance ID", "page", "page size");
+					pw.println(queryConsole.findCompletedNodeInstancesConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2)));
 					break;
 				case "findnodeinstances":
+					userResponse = getResponses("process instance ID", "page", "page size");
+					pw.println(queryConsole.findNodeInstancesConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2)));
 					break;
 				case "findvariablescurrentstate":
+					userResponse = getResponses("process instance ID");
+					pw.println(queryConsole.findVariablesCurrentStateConsole(userResponse.get(0)));
 					break;
-				case "findvariableshistory":
+				case "findvariablehistory":
+					userResponse = getResponses("process instance ID", "variable name", "page", "page size");
+					pw.println(queryConsole.findVariableHistoryConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2), userResponse.get(3)));
 					break;
 				case "registerquery":
+					userResponse = getResponses("query name", "source", "expression", "target");
+					pw.println(queryConsole.registerQueryConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2), userResponse.get(3)));
 					break;
 				case "replacequery":
+					userResponse = getResponses("query name", "source", "expression", "target");
+					pw.println(queryConsole.replaceQueryConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2), userResponse.get(3)));
 					break;
 				case "unregisterquery":
+					userResponse = getResponses("query name");
+					pw.println(queryConsole.unregisterQueryConsole(userResponse.get(0)));
 					break;
 				case "getquery":
+					userResponse = getResponses("query name");
+					pw.println(queryConsole.getQueryConsole(userResponse.get(0)));
 					break;
 				case "getqueries":
+					userResponse = getResponses("page", "page size");
+					pw.println(queryConsole.getQueriesConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "query":
+					userResponse = getResponses("query name", "mapper", "page", "page size", "result type");
+					pw.println(queryConsole.queryConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2),
+							userResponse.get(3), userResponse.get(4)));
 					break;
 				case "querywithorderby":
+					userResponse = getResponses("query name", "mapper", "order by", "page", "page size", "result type");
+					pw.println(queryConsole.queryWithOrderByConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5)));
 					break;
 				case "querywithcolumnmapping":
+					userResponse = getResponses("query name", "mapper", "order by",
+							"should responses be shown ascending (true or false)",
+							"column mapping (in the format \"key1=value1,key2=value2,...\")",
+							"query parameters (in the format \"column1:operator1:value,"
+							+ "value,...:column2:operator2:value,value,...\")", "page", "page size", "result type");
+					pw.println(queryConsole.queryWithColumnMappingConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5),
+							userResponse.get(6), userResponse.get(7), userResponse.get(8)));
 					break;
 				case "querywithparameters":
+					userResponse = getResponses("query name", "mapper", "builder",
+							"query parameters (in the format \"key1=value1,key2=value2,...\")", "page",
+							"page size", "result type");
+					pw.println(queryConsole.queryWithParametersConsole(userResponse.get(0), userResponse.get(1),
+							userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5),
+							userResponse.get(6)));
 					break;
 				//UI commands
 				case "getprocessformbylanguage":
