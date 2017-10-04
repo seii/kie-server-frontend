@@ -509,18 +509,28 @@ public class Main {
 					break;
 				//UI commands
 				case "getprocessformbylanguage":
+					userResponse = getResponses("process instance ID", "language");
+					pw.println(uiConsole.getProcessFormByLanguageConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "getprocessform":
+					userResponse = getResponses("process instance ID");
+					pw.println(uiConsole.getProcessFormConsole(userResponse.get(0)));
 					break;
 				case "gettaskformbylanguage":
+					userResponse = getResponses("task ID", "language");
+					pw.println(uiConsole.getTaskFormByLanguageConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "gettaskform":
+					userResponse = getResponses("task ID");
+					pw.println(uiConsole.getTaskFormConsole(userResponse.get(0)));
 					break;
 				case "getprocessimage":
 					userResponse = getResponses("process ID");
 					pw.println(uiConsole.getProcessImageConsole(userResponse.get(0)));
 					break;
 				case "getprocessinstanceimage":
+					userResponse = getResponses("process instance ID");
+					pw.println(uiConsole.getProcessInstanceImageConsole(userResponse.get(0)));
 					break;
 				//User Task commands
 				case "activatetask":
