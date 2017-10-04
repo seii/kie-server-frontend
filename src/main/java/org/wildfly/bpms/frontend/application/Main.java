@@ -99,7 +99,7 @@ public class Main {
 				case "getrequestsbystatus":
 					userResponse = getResponses("page", "page size", "statuses (comma separated)");
 					pw.println(jobConsole.getRequestsByStatusConsole(userResponse.get(0), userResponse.get(1),
-							userResponse.get(2).split(",")));
+							userResponse.get(2)));
 					break;
 				case "getrequestsbybusinesskey":
 					userResponse = getResponses("page", "page size", "business key");
@@ -535,156 +535,259 @@ public class Main {
 				//User Task commands
 				case "activatetask":
 					userResponse = getResponses("task ID", "user ID");
-					pw.println(String.format(Constants.SENDING_COMMAND, "activatetask"));
-					userTaskConsole.activateTaskConsole(userResponse.get(0), userResponse.get(1));
+					pw.println(userTaskConsole.activateTaskConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "claimtask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID");
+					pw.println(userTaskConsole.claimTaskConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "completetask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID", "parameters (in the format \"key1=value1,key2=value2,...\")");
+					pw.println(userTaskConsole.completeTaskConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "completeautoprogress":
+					userResponse = getResponses("task ID", "user ID", "parameters (in the format \"key1=value1,key2=value2,...\")");
+					pw.println(userTaskConsole.completeAutoProgressConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "delegatetask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID", "target user ID");
+					pw.println(userTaskConsole.delegateTaskConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "exittask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID");
+					pw.println(userTaskConsole.exitTaskConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "failtask":
+					userResponse = getResponses("task ID", "user ID", "parameters (in the format \"key1=value1,key2=value2,...\")");
+					pw.println(userTaskConsole.failTaskConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "forwardtask":
+					userResponse = getResponses("task ID", "user ID", "target entity ID");
+					pw.println(userTaskConsole.forwardTaskConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "releasetask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID");
+					pw.println(userTaskConsole.releaseTaskConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "resumetask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID");
+					pw.println(userTaskConsole.resumeTaskConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "skiptask":
+					userResponse = getResponses("task ID", "user ID");
+					pw.println(userTaskConsole.skipTaskConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "starttask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID");
+					pw.println(userTaskConsole.startTaskConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "stoptask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID");
+					pw.println(userTaskConsole.stopTaskConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "suspendtask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID");
+					pw.println(userTaskConsole.suspendTaskConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "nominatetask":
+					userResponse = getResponses("task ID", "user ID", "potential owner IDs (comma-separated)");
+					pw.println(userTaskConsole.nominateTaskConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "settaskpriority":
+					userResponse = getResponses("task ID", "priority");
+					pw.println(userTaskConsole.setTaskPriorityConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "settaskexpirationdate":
-					//TODO:
+					userResponse = getResponses("task ID", "date (in the format MM-dd-yyyy)");
+					pw.println(userTaskConsole.setTaskExpirationDateConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "settaskskipable":
+					userResponse = getResponses("task ID", "skippable? (true or false)");
+					pw.println(userTaskConsole.setTaskSkipableConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "settaskname":
+					userResponse = getResponses("task ID", "task name");
+					pw.println(userTaskConsole.setTaskNameConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "settaskdescription":
+					userResponse = getResponses("task ID", "task description");
+					pw.println(userTaskConsole.setTaskDescriptionConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "savetaskcontent":
+					userResponse = getResponses("task ID", "content (in the format \"key1=value1,key2=value2,...\")");
+					pw.println(userTaskConsole.saveTaskContentConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "gettaskoutputcontentbytaskid":
-					//TODO:
+					userResponse = getResponses("task ID");
+					pw.println(userTaskConsole.getTaskOutputContentByTaskIdConsole(userResponse.get(0)));
 					break;
 				case "gettaskinputcontentbytaskid":
-					//TODO:
+					userResponse = getResponses("task ID");
+					pw.println(userTaskConsole.getTaskInputContentByTaskIdConsole(userResponse.get(0)));
 					break;
 				case "deletetaskcontent":
+					userResponse = getResponses("task ID", "content ID");
+					pw.println(userTaskConsole.deleteTaskContentConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "addtaskcomment":
-					//TODO:
+					userResponse = getResponses("task ID", "text", "user adding the comment", "comment date (in format MM-dd-yyyy)");
+					pw.println(userTaskConsole.addTaskCommentConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "deletetaskcomment":
-					//TODO:
+					userResponse = getResponses("task ID", "comment ID");
+					pw.println(userTaskConsole.deleteTaskCommentConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "gettaskcommentsbytaskid":
-					//TODO:
+					userResponse = getResponses("task ID");
+					pw.println(userTaskConsole.getTaskCommentsByTaskIdConsole(userResponse.get(0)));
 					break;
 				case "gettaskcommentbyid":
+					userResponse = getResponses("task ID", "comment ID");
+					pw.println(userTaskConsole.getTaskCommentByIdConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "addtaskattachment":
+					userResponse = getResponses("task ID", "user ID", "task name", "attachment type");
+					pw.println(userTaskConsole.addTaskAttachmentConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "deletetaskattachment":
+					userResponse = getResponses("task ID", "attachment ID");
+					pw.println(userTaskConsole.deleteTaskAttachmentConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "gettaskattachmentbyid":
+					userResponse = getResponses("task ID", "attachment ID");
+					pw.println(userTaskConsole.getTaskAttachmentByIdConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "gettaskattachmentcontentbyid":
+					userResponse = getResponses("task ID", "attachment ID");
+					pw.println(userTaskConsole.getTaskAttachmentContentByIdConsole(userResponse.get(0), userResponse.get(1)));
 					break;
 				case "gettaskattachmentsbytaskid":
+					userResponse = getResponses("task ID");
+					pw.println(userTaskConsole.getTaskAttachmentsByTaskIdConsole(userResponse.get(0)));
 					break;
 				case "gettaskinstance":
-					//TODO:
+					userResponse = getResponses("task ID");
+					pw.println(userTaskConsole.getTaskInstanceConsole(userResponse.get(0)));
 					break;
 				case "gettaskinstancewithinputoutput":
-					//TODO:
+					userResponse = getResponses("task ID", "with inputs? (true or false)", "with outputs? (true or false)", "with assignments? (true or false)");
+					pw.println(userTaskConsole.getTaskInstanceWithInputOutputConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findtaskbyworkitemid":
+					userResponse = getResponses("work item ID");
+					pw.println(userTaskConsole.findTaskByWorkItemIdConsole(userResponse.get(0)));
 					break;
 				case "findtaskbyid":
-					//TODO:
+					userResponse = getResponses("task ID");
+					pw.println(userTaskConsole.findTaskByIdConsole(userResponse.get(0)));
 					break;
 				case "findtasksassignedasbusinessadministrator":
+					userResponse = getResponses("user ID", "page", "page size");
+					pw.println(userTaskConsole.findTasksAssignedAsBusinessAdministratorConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "findtasksassignedasbusinessadministratorwithstatus":
+					userResponse = getResponses("user ID", "status", "page", "page size");
+					pw.println(userTaskConsole.findTasksAssignedAsBusinessAdministratorWithStatusConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findtasksassignedaspotentialowner":
+					userResponse = getResponses("user ID", "page", "page size");
+					pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "findtasksassignedaspotentialownerwithstatus":
+					userResponse = getResponses("user ID", "status", "page", "page size");
+					pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerWithStatusConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findtasksassignedaspotentialownerwithgroups":
+					userResponse = getResponses("user ID", "groups (comma-separated)", "page", "page size");
+					pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerWithGroupsConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findtasksowned":
+					userResponse = getResponses("user ID", "page", "page size");
+					pw.println(userTaskConsole.findTasksOwnedConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "findtasksownedwithstatuses":
+					userResponse = getResponses("user ID", "status", "page", "page size");
+					pw.println(userTaskConsole.findTasksOwnedWithStatusesConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findtasksbystatusbyprocessinstanceid":
+					userResponse = getResponses("process instance ID", "status", "page", "page size");
+					pw.println(userTaskConsole.findTasksByStatusByProcessInstanceIdConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 					break;
 				case "findtasks":
-					//TODO:
+					userResponse = getResponses("user ID", "page", "page size");
+					pw.println(userTaskConsole.findTasksConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "findtaskevents":
+					userResponse = getResponses("task ID", "page", "page size");
+					pw.println(userTaskConsole.findTaskEventsConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "findtasksbyvariable":
+					userResponse = getResponses("user ID", "variable name", "status", "page", "page size");
+					pw.println(userTaskConsole.findTasksByVariableConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findtasksbyvariableandvalue":
+					userResponse = getResponses("user ID", "variable name", "variable value", "status", "page", "page size");
+					pw.println(userTaskConsole.findTasksByVariableAndValueConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5)));
 					break;
 				case "findtasksassignedasbusinessadministratorwithsort":
+					userResponse = getResponses("user ID", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTasksAssignedAsBusinessAdministratorWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findtasksassignedasbusinessadministratorwithstatuswithsort":
+					userResponse = getResponses("user ID", "status", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTasksAssignedAsBusinessAdministratorWithStatusWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5)));
 					break;
 				case "findtasksassignedaspotentialowners":
+					userResponse = getResponses("user ID", "page", "page size");
+					pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
-				case "findtasksassignedaspotentialownerwithstatuswithsort":
-					break;
+				/*case "findtasksassignedaspotentialownerwithstatuswithsort":
+					userResponse = getResponses();
+					pw.println(userTaskConsole);
+					break;*/
 				case "findtasksassignedaspotentialownerwithgroupswithsort":
+					userResponse = getResponses("user ID", "groups (comma-separated)", "status", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerWithGroupsWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5), userResponse.get(6)));
 					break;
 				case "findtasksownedwithsort":
+					userResponse = getResponses("user ID", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTasksOwnedWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findtasksownedwithstatus":
+					userResponse = getResponses("user ID", "status", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTasksOwnedWithStatusConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5)));
 					break;
 				case "findtasksbystatusbyprocessinstanceidwithsort":
+					userResponse = getResponses("process instance ID", "status", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTasksByStatusByProcessInstanceIdWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5)));
 					break;
 				case "findtaskswithsort":
+					userResponse = getResponses("user ID", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTasksWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findtaskeventswithsort":
+					userResponse = getResponses("task ID", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTaskEventsWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 					break;
 				case "findtasksbyvariablewithsort":
+					userResponse = getResponses("user ID", "variable name", "status", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTasksByVariableWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5), userResponse.get(6)));
 					break;
 				case "findtasksbyvariableandvaluewithsort":
+					userResponse = getResponses("user ID", "variable name", "variable value", "status", "page", "page size", "sort by", "sort order");
+					pw.println(userTaskConsole.findTasksByVariableAndValueWithSortConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5), userResponse.get(6), userResponse.get(7)));
 					break;
 				case "claimstartcompletehumantask":
-					//TODO:
+					userResponse = getResponses("task ID", "user ID", "data (in the format \\\"key1=value1,key2=value2,...\\\")");
+					pw.println(userTaskConsole.claimStartCompleteHumanTaskConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 					break;
 				case "getinputdata":
-					//TODO:
+					userResponse = getResponses("task ID");
+					pw.println(userTaskConsole.getInputDataConsole(userResponse.get(0)));
 					break;
 				case "getoutputdata":
-					//TODO:
+					userResponse = getResponses("task ID");
+					pw.println(userTaskConsole.getOutputDataConsole(userResponse.get(0)));
 					break;
 				default:
 					logger.error("Invalid command {} was entered, please enter a valid command.", command);
