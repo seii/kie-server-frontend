@@ -1,5 +1,8 @@
 package org.wildfly.bpms.frontend.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,6 +99,39 @@ public class FrontendUtil {
 		}
 
 		return resultObj;
+	}
+	
+	/**
+	 * 
+	 * @param format
+	 * @param args
+	 * @return
+	 * @throws BpmsFrontendException
+	 */
+	/*
+	 * Workaround for Eclipse bug #122429
+	 * Code found here: https://stackoverflow.com/questions/4203646/system-console-returns-null/11199326#11199326
+	 */
+	public static String readLine(String format, Object... args) throws BpmsFrontendException {
+	    if (System.console() != null) {
+	        return System.console().readLine(format, args);
+	    }
+	    System.out.print(String.format(format, args));
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(
+	            System.in));
+	    try {
+			return reader.readLine();
+		} catch (IOException e) {
+			String errorMessage = String.format("Encountered an IOException while trying to read from the console. "
+					+ "The error was: %s%n", e.getMessage());
+			throw new BpmsFrontendException(errorMessage);
+		}
+	}
+
+	public static char[] readPassword(String format, Object... args) throws BpmsFrontendException {
+	    if (System.console() != null)
+	        return System.console().readPassword(format, args);
+	    return readLine(format, args).toCharArray();
 	}
 
 }

@@ -13,6 +13,7 @@ public class Constants {
 	public static final String NO_HELP_FOR_THIS_COMMAND = "No help is available for this item, please try another";
 	public static final String NOT_A_VALID_PARAMETER = "No valid parameter was specified.\nPossible values are: -help, -?, or -command";
 	public static final String NO_TRANSPORT_VALUE_SPECIFIED = "No -transport value was specified, but this is required for running commands.";
+	public static final String INVALID_TRANSPORT_VALUE_SPECIFIED = "Invalid transport value %s was specified.";
 	public static final String SENDING_COMMAND = "Sending command to execute %s";
 	public static final String FAILED_TO_SCHEDULE = "Failed to schedule the request, no request ID was assigned";
 	public static final String SUCCESSFUL_SCHEDULE = "Successfully scheduled the request. ID %s has been generated.";
@@ -20,6 +21,19 @@ public class Constants {
 	public static final String NO_REQUEST_FOUND_BY_BUSINESS_KEY = "No requests were found to contain the specified business key";
 	public static final String NO_REQUEST_FOUND_BY_COMMAND = "No requests were found to be using the specified command";
 	public static final String NO_REQUEST_FOUND_BY_ID = "No requests were found using the specified ID";
+	
+	//Response types
+	public static final String DATE_RESPONSE = "date (in MM-dd-yyyy format)";
+	public static final String DATA_COMMA_SEPARATED_RESPONSE = "data (comma separated)";
+	public static final String CONTAINER_ID_RESPONSE = "container ID";
+	public static final String REQUEST_ID_RESPONSE = "request ID";
+	public static final String PAGE_RESPONSE = "page number";
+	public static final String PAGE_SIZE_RESPONSE = "page size";
+	public static final String STATUSES_RESPONSE = "statuses (comma separated)";
+	public static final String BUSINESS_KEY_RESPONSE = "business key";
+	public static final String RESULTS_WITH_ERRORS_RESPONSE = "return results with errors? (true or false)";
+	public static final String RESULTS_WITH_DATA_RESPONSE = "return results with data? (true or false)";
+	
 	
 	private Constants() {
 		

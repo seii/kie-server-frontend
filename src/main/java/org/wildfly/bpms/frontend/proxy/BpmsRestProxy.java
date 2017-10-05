@@ -99,4 +99,8 @@ public class BpmsRestProxy implements BpmsProxyInterface
 		logger.debug("Leaving retrieveProperties");
 		return prop;
 	}
+	
+	public void setKieServicesClient(KieServicesClient client) {
+		this.kieServicesClient = client;
+	}
 }
