@@ -1,6 +1,6 @@
 # kie-server-frontend
 
-This Java program is a proof of concept for communicating with the KIE Server APIs in Red Hat BPM Suite 6. It includes generic Java implementations of KIE Server APIs, as well as a command-line tool that can interact with servers if given a configuration file with valid values.
+This Java program is a proof of concept for communicating with the KIE Server APIs in [Red Hat BPM Suite 6](https://www.redhat.com/en/technologies/jboss-middleware/bpm). It includes generic Java implementations of KIE Server APIs, as well as a command-line tool that can interact with servers if given a configuration file with valid values.
 
 **WARNING:** This is intended as a proof of concept only, and should by no means be regarded as complete or production-quality. It may contain bugs of varying severity. Use at your own risk!
 
