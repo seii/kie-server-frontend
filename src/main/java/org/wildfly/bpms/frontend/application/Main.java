@@ -79,6 +79,10 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Execute a call or call(s) to the KIE Server API
+	 * @param command Command name which represents the API call
+	 */
 	protected static void executeCommand(String command) {
 		ArrayList<String> userResponse = new ArrayList<>(1);
 		PrintWriter pw = System.console().writer();
@@ -936,6 +940,11 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Determine which kind of help the user has asked for
+	 * @param helpValue Type of help requested
+	 * @return Message containing the help topic which the user requested
+	 */
 	protected static String parseHelp(String helpValue) {
 		String message;
 
@@ -973,6 +982,11 @@ public class Main {
 		return message;
 	}
 
+	/**
+	 * Accept pre-determined prompts and use them to ask a user for responses
+	 * @param prompts Pre-determined prompts to ask the user
+	 * @return <pre>{@code ArrayList<String> }</pre> containing user answers to the prompts
+	 */
 	protected static ArrayList<String> getResponses(String... prompts) {
 		ArrayList<String> promptList = new ArrayList<>(1);
 		for (String prompt : prompts) {
@@ -985,6 +999,12 @@ public class Main {
 		return userResponses;
 	}
 
+	/**
+	 * Present user with questions to answer from the console
+	 * @param questions Array of questions for the user to answer
+	 * @return <pre>{@code ArrayList<String> }</pre> containing the user's answers
+	 * @see org.wildfly.bpms.frontend.application.Main#getResponses
+	 */
 	protected static ArrayList<String> askUser(String[] questions) {
 		ArrayList<String> responses = new ArrayList<String>(1);
 
@@ -1009,8 +1029,14 @@ public class Main {
 		return responses;
 	}
 
+	/**
+	 * Generate a <pre>{@code Map<String, String> }</pre> with populated keys and empty values
+	 * @param params Indeterminate number of strings to use as key values
+	 * @return <pre>{@code Map<String, String> }</pre> with populated keys and empty <pre>String</pre> values
+	 * @see org.wildfly.bpms.frontend.application.Main#getResponses
+	 */
 	protected static Map<String, String> generateParamKeys(String... params) {
-		HashMap<String, String> paramMap = new HashMap<>();
+		Map<String, String> paramMap = new HashMap<>();
 
 		for (String param : params) {
 			paramMap.put(param, "");
@@ -1019,6 +1045,9 @@ public class Main {
 		return paramMap;
 	}
 
+	/**
+	 * Create instance of all the classes which implement the various KIE Server APIs. Requires the <pre>Main.proxy</pre> variable to have been already set with a non-null value.
+	 */
 	protected static void initialize() {
 		if (proxy != null) {
 			jobConsole = new BpmsJobConsole(proxy.getKieServicesClient());
@@ -1033,6 +1062,11 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Parse an array of arguments into a <pre>{@code Map<String, String> }</pre> that matches keys (starting with "-") to values (non-hyphenated values after a hyphenated one).
+	 * @param args Command line arguments
+	 * @return <pre>{@code Map<String, String> }</pre> matching to key/value pairs
+	 */
 	private static Map<String, String> parseArguments(String[] args) {
 		logger.debug("Entering parseArguments");
 
@@ -1053,6 +1087,9 @@ public class Main {
 		return argMap;
 	}
 
+	/**
+	 * Exits the program with a non-zero code after printing a message
+	 */
 	protected static void exitWithError() {
 		logger.error(Constants.PROGRAM_IS_EXITING);
 		System.exit(-1);
