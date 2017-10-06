@@ -22,7 +22,7 @@ This Java program is a proof of concept for communicating with the KIE Server AP
   
 ## Usage
 1. Build the program using `mvn clean package` (see next section for build requirements)
-2. Navigate to `target` directory and run `java -jar bpms-frontend-1.0.2-jar-with-dependencies.jar`
+2. Navigate to `target` directory and run `java -jar bpms-frontend-1.0.3-jar-with-dependencies.jar`
   
 ## Build Requirements
 1. Maven
