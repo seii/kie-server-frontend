@@ -20,13 +20,13 @@ This Java program is a proof of concept for communicating with the KIE Server AP
 - `org.wildfly.bpms.frontend.util`
   - Utility classes reside here
   
-  ## Usage
-  1. Build the program using `mvn clean package` (see next section for build requirements)
-  2. Navigate to `target` directory and run `java -jar bpms-frontend-1.0.2-jar-with-dependencies.jar`
+## Usage
+1. Build the program using `mvn clean package` (see next section for build requirements)
+2. Navigate to `target` directory and run `java -jar bpms-frontend-1.0.2-jar-with-dependencies.jar`
   
-  ## Build Requirements
-  1. Maven
-  2. JDK v8 or newer
+## Build Requirements
+1. Maven
+2. JDK v8 or newer
   
-  ## Acknowledgements
-  - David Tse from Red Hat, who provided me with both the idea and the initial proxy implementations
+## Acknowledgements
+- David Tse from Red Hat, who provided me with both the idea and the initial proxy implementations
