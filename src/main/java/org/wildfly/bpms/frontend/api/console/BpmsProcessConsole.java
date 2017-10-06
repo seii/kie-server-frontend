@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wildfly.bpms.frontend.api.BpmsProcessServices;
 import org.wildfly.bpms.frontend.exception.BpmsFrontendException;
+import org.wildfly.bpms.frontend.util.FrontendUtil;
 
 public class BpmsProcessConsole extends BpmsProcessServices {
 	
@@ -129,19 +130,15 @@ public class BpmsProcessConsole extends BpmsProcessServices {
      * @return
      * @throws BpmsFrontendException
      */
-    public String startProcessWithVarsConsole(String processName, String ... variables) throws BpmsFrontendException
+    public String startProcessWithVarsConsole(String processName, String variables) throws BpmsFrontendException
     {
     	logger.debug("Entering startProcessWithVars");
     	
         try {
-        	Map<String, Object> varMap = new HashMap<>(1);
-        	for(int i = 0; i < variables.length; i += 2) {
-        		Object value = Class.forName(variables[i+1]).newInstance();
-        		varMap.put(variables[i], value);
-        	}
+        	Map<String, Object> variableMap = FrontendUtil.parseStringToMapStringObject(variables, ",", "=");
         	
         	Long processId = getKieServicesClient().getServicesClient(ProcessServicesClient.class)
-            		.startProcess(getContainerId(), processName, varMap);
+            		.startProcess(getContainerId(), processName, variableMap);
         	
         	logger.debug("Leaving startProcessWithVars");
             return String.format("Process successfully started with ID %s%n", String.valueOf(processId));

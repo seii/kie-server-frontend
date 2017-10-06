@@ -32,7 +32,7 @@ public class Main {
 	private static BpmsQueryConsole queryConsole;
 	private static BpmsUIConsole uiConsole;
 	private static BpmsUserTaskConsole userTaskConsole;
-	
+
 	protected Main() {
 		super();
 	}
@@ -88,8 +88,8 @@ public class Main {
 			switch (command) {
 			// Job commands
 			case "schedulerequest":
-				userResponse = getResponses("command", Constants.DATE_RESPONSE, Constants.DATA_COMMA_SEPARATED_RESPONSE,
-						Constants.CONTAINER_ID_RESPONSE);
+				userResponse = getResponses(Constants.COMMAND_RESPONSE, Constants.DATE_RESPONSE,
+						Constants.DATA_COMMA_SEPARATED_RESPONSE, Constants.CONTAINER_ID_RESPONSE);
 				pw.println(jobConsole.scheduleRequestConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2).split(","), userResponse.get(3)));
 				break;
@@ -98,26 +98,29 @@ public class Main {
 				pw.println(jobConsole.cancelRequestConsole(userResponse.get(0)));
 				break;
 			case "requeuerequest":
-				userResponse = getResponses("request ID");
+				userResponse = getResponses(Constants.REQUEST_ID_RESPONSE);
 				pw.println(jobConsole.requeueRequestConsole(userResponse.get(0)));
 				break;
 			case "getrequestsbystatus":
-				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE, Constants.STATUSES_RESPONSE);
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.STATUSES_COMMA_SEPARATED_RESPONSE);
 				pw.println(jobConsole.getRequestsByStatusConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "getrequestsbybusinesskey":
-				userResponse = getResponses("page", "page size", Constants.BUSINESS_KEY_RESPONSE);
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.BUSINESS_KEY_RESPONSE);
 				pw.println(jobConsole.getRequestsByBusinessKeyConsole(userResponse.get(2), userResponse.get(0),
 						userResponse.get(1)));
 				break;
 			case "getrequestsbycommand":
-				userResponse = getResponses("page", "page size", "command");
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.COMMAND_RESPONSE);
 				pw.println(jobConsole.getRequestsByCommandConsole(userResponse.get(2), userResponse.get(0),
 						userResponse.get(1)));
 				break;
 			case "getrequestbyid":
-				userResponse = getResponses("request ID", Constants.RESULTS_WITH_ERRORS_RESPONSE,
+				userResponse = getResponses(Constants.REQUEST_ID_RESPONSE, Constants.RESULTS_WITH_ERRORS_RESPONSE,
 						Constants.RESULTS_WITH_DATA_RESPONSE);
 				pw.println(jobConsole.getRequestByIdConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
@@ -127,11 +130,12 @@ public class Main {
 				pw.println(kieConsole.getServerStatusConsole());
 				break;
 			case "destroycontainer":
-				userResponse = getResponses("container ID");
+				userResponse = getResponses(Constants.CONTAINER_ID_RESPONSE);
 				kieConsole.destroyContainer(userResponse.get(0));
 				break;
 			case "createcontainer":
-				userResponse = getResponses("container ID", "group ID", "artifact ID", "version ID");
+				userResponse = getResponses(Constants.CONTAINER_ID_RESPONSE, Constants.GROUP_ID_RESPONSE,
+						Constants.ARTIFACT_ID_RESPONSE, Constants.VERSION_ID_RESPONSE);
 				pw.println(kieConsole.createContainerConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
@@ -139,69 +143,71 @@ public class Main {
 				pw.println(kieConsole.listContainersConsole());
 				break;
 			case "listcontainersbyfilter":
-				userResponse = getResponses("group ID", "artifact ID", "version ID", "statuses (comma separated)");
+				userResponse = getResponses(Constants.GROUP_ID_RESPONSE, Constants.ARTIFACT_ID_RESPONSE,
+						Constants.VERSION_ID_RESPONSE, Constants.STATUSES_COMMA_SEPARATED_RESPONSE);
 				pw.println(kieConsole.listContainersByFilterConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3).split(",")));
 				break;
 			case "getcontainerinfo":
-				userResponse = getResponses("container ID");
+				userResponse = getResponses(Constants.CONTAINER_ID_RESPONSE);
 				pw.println(kieConsole.getContainerInfoConsole(userResponse.get(0)));
 				break;
 			case "getscannerinfo":
-				userResponse = getResponses("container ID");
+				userResponse = getResponses(Constants.CONTAINER_ID_RESPONSE);
 				pw.println(kieConsole.getScannerInfoConsole(userResponse.get(0)));
 				break;
 			case "updatescanner":
-				userResponse = getResponses("container ID", "interval in seconds (0 for none)", "scanner status");
+				userResponse = getResponses(Constants.CONTAINER_ID_RESPONSE, Constants.INTERVAL_IN_SECONDS_RESPONSE,
+						Constants.SCANNER_STATUS_RESPONSE);
 				pw.println(
 						kieConsole.updateScannerConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 				break;
 			case "updatereleaseid":
-				userResponse = getResponses("container ID", "group ID", "artifact ID", "version ID");
+				userResponse = getResponses(Constants.CONTAINER_ID_RESPONSE, Constants.GROUP_ID_RESPONSE,
+						Constants.ARTIFACT_ID_RESPONSE, Constants.VERSION_ID_RESPONSE);
 				pw.println(kieConsole.updateReleaseIdConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			// Process commands
 			case "getprocessdefinition":
-				userResponse = getResponses("process definition ID");
+				userResponse = getResponses(Constants.PROCESS_DEFINITION_ID_RESPONSE);
 				pw.println(processConsole.getProcessDefinitionConsole(userResponse.get(0)));
 				break;
 			case "getreusablesubprocessdefinitions":
-				userResponse = getResponses("process definition ID");
+				userResponse = getResponses(Constants.PROCESS_DEFINITION_ID_RESPONSE);
 				pw.println(processConsole.getReusableSubProcessDefinitionsConsole(userResponse.get(0)));
 				break;
 			case "getprocessvariabledefinitions":
-				userResponse = getResponses("process definition ID");
+				userResponse = getResponses(Constants.PROCESS_DEFINITION_ID_RESPONSE);
 				pw.println(processConsole.getProcessVariableDefinitionsConsole(userResponse.get(0)));
 				break;
 			case "getservicetaskdefinitions":
-				userResponse = getResponses("process definition ID");
+				userResponse = getResponses(Constants.PROCESS_DEFINITION_ID_RESPONSE);
 				pw.println(processConsole.getServiceTaskDefinitionsConsole(userResponse.get(0)));
 				break;
 			case "getassociatedentitydefinitions":
-				userResponse = getResponses("process definition ID");
+				userResponse = getResponses(Constants.PROCESS_DEFINITION_ID_RESPONSE);
 				pw.println(processConsole.getAssociatedEntityDefinitionsConsole(userResponse.get(0)));
 				break;
 			case "getusertaskdefinitions":
-				userResponse = getResponses("process definition ID");
+				userResponse = getResponses(Constants.PROCESS_DEFINITION_ID_RESPONSE);
 				pw.println(processConsole.getUserTaskDefinitionsConsole(userResponse.get(0)));
 				break;
 			case "getusertaskinputdefinitions":
-				userResponse = getResponses("process definition ID", "task name");
+				userResponse = getResponses(Constants.PROCESS_DEFINITION_ID_RESPONSE, Constants.TASK_NAME_RESPONSE);
 				pw.println(processConsole.getUserTaskInputDefinitionsConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "getusertaskoutputdefinitions":
-				userResponse = getResponses("process definition ID", "task name");
+				userResponse = getResponses(Constants.PROCESS_DEFINITION_ID_RESPONSE, Constants.TASK_NAME_RESPONSE);
 				pw.println(
 						processConsole.getUserTaskOutputDefinitionsConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "startprocesswithvars":
-				userResponse = getResponses("process name", "variables");
-				pw.println(processConsole.startProcessWithVarsConsole(userResponse.get(0),
-						userResponse.get(1).split(",")));
+				userResponse = getResponses(Constants.PROCESS_NAME_RESPONSE, Constants.VARIABLES_OBJECT_RESPONSE);
+				pw.println(processConsole.startProcessWithVarsConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "startprocess":
-				userResponse = getResponses("process name");
+				userResponse = getResponses(Constants.PROCESS_NAME_RESPONSE);
 				pw.println(processConsole.startProcess(userResponse.get(0)));
 				break;
 			case "startprocesswithkey":
@@ -214,127 +220,135 @@ public class Main {
 				// TODO: Need to find a way to supply a CorrelationKey from the console
 				break;
 			case "abortprocessinstance":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(processConsole.abortProcessInstanceConsole(userResponse.get(0)));
 				break;
 			case "abortprocessinstances":
-				userResponse = getResponses("process instance IDs (comma-separated)");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_IDS_COMMA_SEPARATED_RESPONSE);
 				pw.println(processConsole.abortProcessInstancesConsole(userResponse.get(0)));
 				break;
 			case "getprocessinstancevariable":
-				userResponse = getResponses("process instance ID", "variable name");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.VARIABLE_NAME_RESPONSE);
 				pw.println(processConsole.getProcessInstanceVariableConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "getprocessinstancevariablebytype":
-				userResponse = getResponses("process instance ID", "variable name", "variable data type");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.VARIABLE_NAME_RESPONSE,
+						Constants.VARIABLE_DATA_TYPE_RESPONSE);
 				pw.println(processConsole.getProcessInstanceVariableByTypeConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2)));
 				break;
 			case "isprocessfinished":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(processConsole.isProcessFinishedConsole(userResponse.get(0)));
 				break;
 			case "processcompletedsuccessfully":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(processConsole.processCompletedSuccessfullyConsole(userResponse.get(0)));
 				break;
 			case "getprocessinstancevariables":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(processConsole.getProcessInstanceVariablesConsole(userResponse.get(0)));
 				break;
 			case "signalprocessinstance":
-				userResponse = getResponses("process instance ID", "signal name", "event type");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.SIGNAL_NAME_RESPONSE,
+						Constants.EVENT_TYPE_RESPONSE);
 				pw.println(processConsole.signalProcessInstanceConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "signalprocessinstances":
-				userResponse = getResponses("process instance IDs (comma-separated)", "signal name", "event data type");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_IDS_COMMA_SEPARATED_RESPONSE,
+						Constants.SIGNAL_NAME_RESPONSE, Constants.EVENT_DATA_TYPE_RESPONSE);
 				pw.println(processConsole.signalProcessInstancesConsole(userResponse.get(1), userResponse.get(2),
 						userResponse.get(0)));
 				break;
 			case "signal":
-				userResponse = getResponses("signal name", "event data type");
+				userResponse = getResponses(Constants.SIGNAL_NAME_RESPONSE, Constants.EVENT_DATA_TYPE_RESPONSE);
 				pw.println(processConsole.signalConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "getavailablesignals":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(processConsole.getAvailableSignalsConsole(userResponse.get(0)));
 				break;
 			case "setprocessvariable":
-				userResponse = getResponses("process instance ID", "variable name", "variable value");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.VARIABLE_NAME_RESPONSE,
+						Constants.VARIABLE_VALUE_RESPONSE);
 				pw.println(processConsole.setProcessVariableConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "setprocessvariables":
-				userResponse = getResponses("process instance ID",
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE,
 						"variables (in the format key1=value1,key2=value2, etc.)");
 				pw.println(processConsole.setProcessVariablesConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "getprocessinstance":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(processConsole.getProcessInstanceConsole(userResponse.get(0)));
 				break;
 			case "getprocessinstancewithvars":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(processConsole.getProcessInstanceWithVarsConsole(userResponse.get(0)));
 				break;
 			case "completeworkitem":
-				userResponse = getResponses("process instance ID", "work item ID", "results");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.WORK_ITEM_ID_RESPONSE,
+						Constants.RESULTS_RESPONSE);
 				pw.println(processConsole.completeWorkItemConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "abortworkitem":
-				userResponse = getResponses("process instance ID", "work item ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.WORK_ITEM_ID_RESPONSE);
 				pw.println(processConsole.abortWorkItemConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "getworkitem":
-				userResponse = getResponses("process instance ID", "work item ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.WORK_ITEM_ID_RESPONSE);
 				pw.println(processConsole.getWorkItemConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "getworkitembyprocessinstances":
-				userResponse = getResponses("process instance IDs (comma-separated)");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_IDS_COMMA_SEPARATED_RESPONSE);
 				pw.println(processConsole.getWorkItemByProcessInstancesConsole(userResponse.get(0)));
 				break;
 			// Query commands
 			case "findprocessdefinitionsbycontaineridprocessid":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(queryConsole.findProcessDefinitionByContainerIdProcessIdConsole(userResponse.get(0)));
 				break;
 			case "findprocessdefinitionsbyid":
-				userResponse = getResponses("process instance IDs (comma-separated)");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_IDS_COMMA_SEPARATED_RESPONSE);
 				pw.println(queryConsole.findProcessDefinitionsByIdConsole(userResponse.get(0)));
 				break;
 			case "findprocessdefinitions":
-				userResponse = getResponses("page", "page size");
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessDefinitionsConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "findprocessdefinitionsbyfilter":
-				userResponse = getResponses("filter", "page", "page size");
+				userResponse = getResponses("filter", Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessDefinitionsByFilterConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "findprocessdefinitionsbycontainerid":
-				userResponse = getResponses("page", "page size");
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessDefinitionsByContainerIdConsole(userResponse.get(0),
 						userResponse.get(1)));
 				break;
 			case "findprocessdefinitionswithsort":
-				userResponse = getResponses("page", "page size", "order by", "sort order");
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessDefinitionsWithSortConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findprocessdefinitionswithsortwithfilter":
-				userResponse = getResponses("filter", "page", "page size", "order by", "sort order");
+				userResponse = getResponses("filter", Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessDefinitionsWithSortWithFilterConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findprocessdefinitionsbycontaineridwithsort":
-				userResponse = getResponses("page", "page size", "order by", "sort order");
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessDefinitionsByContainerIdWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findprocessinstances":
-				userResponse = getResponses("page", "page size");
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "findprocessinstancesbycorrelationkey":
@@ -344,43 +358,54 @@ public class Main {
 				// TODO: Need to find a way to supply a CorrelationKey from the console
 				break;
 			case "findprocessinstancesbyprocessid":
-				userResponse = getResponses("process instance ID", "statuses (comma-separated)", "page", "page size");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE,
+						Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByProcessIdConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findprocessinstancesbyprocessname":
-				userResponse = getResponses("process name", "statuses (comma-seperated)", "page", "page size");
+				userResponse = getResponses(Constants.PROCESS_NAME_RESPONSE,
+						Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByProcessNameConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findprocessinstancesbycontainerid":
-				userResponse = getResponses("statuses (comma-separated)", "page", "page size");
+				userResponse = getResponses(Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByContainerIdConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2)));
 				break;
 			case "findprocessinstancesbystatus":
-				userResponse = getResponses("statuses (comma-separated)", "page", "page size");
+				userResponse = getResponses(Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByStatusConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "findprocessinstancesbyinitiator":
-				userResponse = getResponses("initiator's name", "statuses (comma-separated)", "page", "page size");
+				userResponse = getResponses("initiator's name", Constants.STATUSES_COMMA_SEPARATED_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByInitiatorConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findprocessinstancesbyvariable":
-				userResponse = getResponses("variable name", "statuses (comma-separated)", "page", "page size");
+				userResponse = getResponses(Constants.VARIABLE_NAME_RESPONSE,
+						Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByVariableConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findprocessinstancesbyvariableandvalue":
-				userResponse = getResponses("variable name", "variable value", "statuses (comma-separated)", "page",
-						"page size");
+				userResponse = getResponses(Constants.VARIABLE_NAME_RESPONSE, Constants.VARIABLE_VALUE_RESPONSE,
+						Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByVariableAndValueConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findprocessinstanceswithsort":
-				userResponse = getResponses("page", "page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesWithSortConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
@@ -388,403 +413,437 @@ public class Main {
 				// TODO: Need to find a way to supply a CorrelationKey from the console
 				break;
 			case "findprocessinstancesbyprocessidwithsort":
-				userResponse = getResponses("process instance ID", "statuses (comma-separated)", "page", "page size",
-						"sort by", "sort order");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE,
+						Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByProcessIdWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
 						userResponse.get(5)));
 				break;
 			case "findprocessinstancesbyprocessnamewithsort":
-				userResponse = getResponses("process instance name", "statuses (comma-separated)", "page", "page size",
-						"sort by", "sort order");
+				userResponse = getResponses("process instance name", Constants.STATUSES_COMMA_SEPARATED_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE,
+						Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByProcessNameWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
 						userResponse.get(5)));
 				break;
 			case "findprocessinstancesbycontaineridwithsort":
-				userResponse = getResponses("statuses (comma-separated)", "page", "page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByContainerIdWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findprocessinstancesbystatuswithsort":
-				userResponse = getResponses("statuses (comma-separated)", "page", "page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByStatusWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findprocessinstancesbyinitiatorwithsort":
-				userResponse = getResponses("initiator name", "statuses (comma-separated", "page", "page size",
-						"sort by", "sort order");
+				userResponse = getResponses(Constants.INITIATOR_NAME_RESPONSE,
+						Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByInitiatorWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
 						userResponse.get(5)));
 				break;
 			case "findprocessinstancesbyvariablewithsort":
-				userResponse = getResponses("variable name", "statuses (comma-separated)", "page", "page size",
-						"sort by", "sort order");
+				userResponse = getResponses(Constants.VARIABLE_NAME_RESPONSE,
+						Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByVariableWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
 						userResponse.get(5)));
 				break;
 			case "findprocessinstancesbyvariableandvaluewithsort":
-				userResponse = getResponses("variable name", "variable value", "statuses (comma-separated)", "page",
-						"page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.VARIABLE_NAME_RESPONSE, Constants.VARIABLE_VALUE_RESPONSE,
+						Constants.STATUSES_COMMA_SEPARATED_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(queryConsole.findProcessInstancesByVariableAndValueWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
 						userResponse.get(5), userResponse.get(6)));
 				break;
 			case "findprocessinstancebyid":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(queryConsole.findProcessInstanceByIdConsole(userResponse.get(0)));
 				break;
 			case "findprocessinstancebyidwithvars":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(queryConsole.findProcessInstanceByIdWithVarsConsole(userResponse.get(0)));
 				break;
 			case "findprocessinstancebycorrelationkey":
 				// TODO: Need to find a way to supply a CorrelationKey from the console
 				break;
 			case "findnodeinstancebyworkitemid":
-				userResponse = getResponses("process instance ID", "work item ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.WORK_ITEM_ID_RESPONSE);
 				pw.println(queryConsole.findNodeInstanceByWorkItemIdConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "findactivenodeinstances":
-				userResponse = getResponses("process instance ID", "page", "page size");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findActiveNodeInstancesConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "findcompletednodeinstances":
-				userResponse = getResponses("process instance ID", "page", "page size");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findCompletedNodeInstancesConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "findnodeinstances":
-				userResponse = getResponses("process instance ID", "page", "page size");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findNodeInstancesConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "findvariablescurrentstate":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(queryConsole.findVariablesCurrentStateConsole(userResponse.get(0)));
 				break;
 			case "findvariablehistory":
-				userResponse = getResponses("process instance ID", "variable name", "page", "page size");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.VARIABLE_NAME_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.findVariableHistoryConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "registerquery":
-				userResponse = getResponses("query name", "source", "expression", "target");
+				userResponse = getResponses(Constants.QUERY_NAME_RESPONSE, Constants.SOURCE_RESPONSE,
+						Constants.EXPRESSION_RESPONSE, Constants.TARGET_RESPONSE);
 				pw.println(queryConsole.registerQueryConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "replacequery":
-				userResponse = getResponses("query name", "source", "expression", "target");
+				userResponse = getResponses(Constants.QUERY_NAME_RESPONSE, Constants.SOURCE_RESPONSE,
+						Constants.EXPRESSION_RESPONSE, Constants.TARGET_RESPONSE);
 				pw.println(queryConsole.replaceQueryConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "unregisterquery":
-				userResponse = getResponses("query name");
+				userResponse = getResponses(Constants.QUERY_NAME_RESPONSE);
 				pw.println(queryConsole.unregisterQueryConsole(userResponse.get(0)));
 				break;
 			case "getquery":
-				userResponse = getResponses("query name");
+				userResponse = getResponses(Constants.QUERY_NAME_RESPONSE);
 				pw.println(queryConsole.getQueryConsole(userResponse.get(0)));
 				break;
 			case "getqueries":
-				userResponse = getResponses("page", "page size");
+				userResponse = getResponses(Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(queryConsole.getQueriesConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "query":
-				userResponse = getResponses("query name", "mapper", "page", "page size", "result type");
+				userResponse = getResponses(Constants.QUERY_NAME_RESPONSE, Constants.MAPPER_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE, Constants.RESULT_TYPE_RESPONSE);
 				pw.println(queryConsole.queryConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2),
 						userResponse.get(3), userResponse.get(4)));
 				break;
 			case "querywithorderby":
-				userResponse = getResponses("query name", "mapper", "order by", "page", "page size", "result type");
+				userResponse = getResponses(Constants.QUERY_NAME_RESPONSE, Constants.MAPPER_RESPONSE,
+						Constants.SORT_BY_RESPONSE, Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.RESULT_TYPE_RESPONSE);
 				pw.println(queryConsole.queryWithOrderByConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5)));
 				break;
 			case "querywithcolumnmapping":
-				userResponse = getResponses("query name", "mapper", "order by",
-						"should responses be shown ascending (true or false)",
-						"column mapping (in the format \"key1=value1,key2=value2,...\")",
-						"query parameters (in the format \"column1:operator1:value,"
-								+ "value,...:column2:operator2:value,value,...\")",
-						"page", "page size", "result type");
+				userResponse = getResponses(Constants.QUERY_NAME_RESPONSE, Constants.MAPPER_RESPONSE,
+						Constants.SORT_BY_RESPONSE, Constants.RESPONSES_ASCENDING_RESPONSE,
+						Constants.COLUMN_MAPPING_OBJECT_RESPONSE, Constants.QUERY_PARAMETERS_TRI_OBJECT_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE, Constants.RESULT_TYPE_RESPONSE);
 				pw.println(queryConsole.queryWithColumnMappingConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5),
 						userResponse.get(6), userResponse.get(7), userResponse.get(8)));
 				break;
 			case "querywithparameters":
-				userResponse = getResponses("query name", "mapper", "builder",
-						"query parameters (in the format \"key1=value1,key2=value2,...\")", "page", "page size",
-						"result type");
+				userResponse = getResponses(Constants.QUERY_NAME_RESPONSE, Constants.MAPPER_RESPONSE,
+						Constants.BUILDER_RESPONSE, Constants.QUERY_PARAMETERS_OBJECT_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.RESULT_TYPE_RESPONSE);
 				pw.println(queryConsole.queryWithParametersConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5),
 						userResponse.get(6)));
 				break;
 			// UI commands
 			case "getprocessformbylanguage":
-				userResponse = getResponses("process instance ID", "language");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.LANGUAGE_RESPONSE);
 				pw.println(uiConsole.getProcessFormByLanguageConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "getprocessform":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(uiConsole.getProcessFormConsole(userResponse.get(0)));
 				break;
 			case "gettaskformbylanguage":
-				userResponse = getResponses("task ID", "language");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.LANGUAGE_RESPONSE);
 				pw.println(uiConsole.getTaskFormByLanguageConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "gettaskform":
-				userResponse = getResponses("task ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE);
 				pw.println(uiConsole.getTaskFormConsole(userResponse.get(0)));
 				break;
 			case "getprocessimage":
-				userResponse = getResponses("process ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(uiConsole.getProcessImageConsole(userResponse.get(0)));
 				break;
 			case "getprocessinstanceimage":
-				userResponse = getResponses("process instance ID");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE);
 				pw.println(uiConsole.getProcessInstanceImageConsole(userResponse.get(0)));
 				break;
 			// User Task commands
 			case "activatetask":
-				userResponse = getResponses("task ID", "user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE);
 				pw.println(userTaskConsole.activateTaskConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "claimtask":
-				userResponse = getResponses("task ID", "user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE);
 				pw.println(userTaskConsole.claimTaskConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "completetask":
-				userResponse = getResponses("task ID", "user ID",
-						"parameters (in the format \"key1=value1,key2=value2,...\")");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE,
+						Constants.PARAMETERS_OBJECT_RESPONSE);
 				pw.println(userTaskConsole.completeTaskConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "completeautoprogress":
-				userResponse = getResponses("task ID", "user ID",
-						"parameters (in the format \"key1=value1,key2=value2,...\")");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE,
+						Constants.PARAMETERS_OBJECT_RESPONSE);
 				pw.println(userTaskConsole.completeAutoProgressConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "delegatetask":
-				userResponse = getResponses("task ID", "user ID", "target user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE,
+						Constants.TARGET_USER_ID_RESPONSE);
 				pw.println(userTaskConsole.delegateTaskConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "exittask":
-				userResponse = getResponses("task ID", "user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE);
 				pw.println(userTaskConsole.exitTaskConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "failtask":
-				userResponse = getResponses("task ID", "user ID",
-						"parameters (in the format \"key1=value1,key2=value2,...\")");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE,
+						Constants.PARAMETERS_OBJECT_RESPONSE);
 				pw.println(
 						userTaskConsole.failTaskConsole(userResponse.get(0), userResponse.get(1), userResponse.get(2)));
 				break;
 			case "forwardtask":
-				userResponse = getResponses("task ID", "user ID", "target entity ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE,
+						Constants.TARGET_ENTITY_ID_RESPONSE);
 				pw.println(userTaskConsole.forwardTaskConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "releasetask":
-				userResponse = getResponses("task ID", "user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE);
 				pw.println(userTaskConsole.releaseTaskConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "resumetask":
-				userResponse = getResponses("task ID", "user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE);
 				pw.println(userTaskConsole.resumeTaskConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "skiptask":
-				userResponse = getResponses("task ID", "user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE);
 				pw.println(userTaskConsole.skipTaskConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "starttask":
-				userResponse = getResponses("task ID", "user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE);
 				pw.println(userTaskConsole.startTaskConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "stoptask":
-				userResponse = getResponses("task ID", "user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE);
 				pw.println(userTaskConsole.stopTaskConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "suspendtask":
-				userResponse = getResponses("task ID", "user ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE);
 				pw.println(userTaskConsole.suspendTaskConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "nominatetask":
-				userResponse = getResponses("task ID", "user ID", "potential owner IDs (comma-separated)");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE,
+						Constants.POTENTIAL_OWNER_IDS_COMMA_SEPARATED_RESPONSE);
 				pw.println(userTaskConsole.nominateTaskConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "settaskpriority":
-				userResponse = getResponses("task ID", "priority");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.PRIORITY_RESPONSE);
 				pw.println(userTaskConsole.setTaskPriorityConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "settaskexpirationdate":
-				userResponse = getResponses("task ID", "date (in the format MM-dd-yyyy)");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.DATE_RESPONSE);
 				pw.println(userTaskConsole.setTaskExpirationDateConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "settaskskipable":
-				userResponse = getResponses("task ID", "skippable? (true or false)");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.SKIPPABLE_RESPONSE);
 				pw.println(userTaskConsole.setTaskSkipableConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "settaskname":
-				userResponse = getResponses("task ID", "task name");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.TASK_NAME_RESPONSE);
 				pw.println(userTaskConsole.setTaskNameConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "settaskdescription":
-				userResponse = getResponses("task ID", "task description");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.TASK_DESCRIPTION_RESPONSE);
 				pw.println(userTaskConsole.setTaskDescriptionConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "savetaskcontent":
-				userResponse = getResponses("task ID", "content (in the format \"key1=value1,key2=value2,...\")");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.CONTENT_OBJECT_RESPONSE);
 				pw.println(userTaskConsole.saveTaskContentConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "gettaskoutputcontentbytaskid":
-				userResponse = getResponses("task ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE);
 				pw.println(userTaskConsole.getTaskOutputContentByTaskIdConsole(userResponse.get(0)));
 				break;
 			case "gettaskinputcontentbytaskid":
-				userResponse = getResponses("task ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE);
 				pw.println(userTaskConsole.getTaskInputContentByTaskIdConsole(userResponse.get(0)));
 				break;
 			case "deletetaskcontent":
-				userResponse = getResponses("task ID", "content ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.CONTENT_ID_RESPONSE);
 				pw.println(userTaskConsole.deleteTaskContentConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "addtaskcomment":
-				userResponse = getResponses("task ID", "text", "user adding the comment",
-						"comment date (in format MM-dd-yyyy)");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.TEXT_RESPONSE,
+						Constants.USER_ADDING_COMMENT_RESPONSE, Constants.COMMENT_DATE_RESPONSE);
 				pw.println(userTaskConsole.addTaskCommentConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "deletetaskcomment":
-				userResponse = getResponses("task ID", "comment ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.COMMENT_ID_RESPONSE);
 				pw.println(userTaskConsole.deleteTaskCommentConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "gettaskcommentsbytaskid":
-				userResponse = getResponses("task ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE);
 				pw.println(userTaskConsole.getTaskCommentsByTaskIdConsole(userResponse.get(0)));
 				break;
 			case "gettaskcommentbyid":
-				userResponse = getResponses("task ID", "comment ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.COMMENT_ID_RESPONSE);
 				pw.println(userTaskConsole.getTaskCommentByIdConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "addtaskattachment":
-				userResponse = getResponses("task ID", "user ID", "task name", "attachment type");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE,
+						Constants.TASK_NAME_RESPONSE, Constants.ATTACHMENT_TYPE_RESPONSE);
 				pw.println(userTaskConsole.addTaskAttachmentConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "deletetaskattachment":
-				userResponse = getResponses("task ID", "attachment ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.ATTACHMENT_ID_RESPONSE);
 				pw.println(userTaskConsole.deleteTaskAttachmentConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "gettaskattachmentbyid":
-				userResponse = getResponses("task ID", "attachment ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.ATTACHMENT_ID_RESPONSE);
 				pw.println(userTaskConsole.getTaskAttachmentByIdConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "gettaskattachmentcontentbyid":
-				userResponse = getResponses("task ID", "attachment ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.ATTACHMENT_ID_RESPONSE);
 				pw.println(
 						userTaskConsole.getTaskAttachmentContentByIdConsole(userResponse.get(0), userResponse.get(1)));
 				break;
 			case "gettaskattachmentsbytaskid":
-				userResponse = getResponses("task ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE);
 				pw.println(userTaskConsole.getTaskAttachmentsByTaskIdConsole(userResponse.get(0)));
 				break;
 			case "gettaskinstance":
-				userResponse = getResponses("task ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE);
 				pw.println(userTaskConsole.getTaskInstanceConsole(userResponse.get(0)));
 				break;
 			case "gettaskinstancewithinputoutput":
-				userResponse = getResponses("task ID", "with inputs? (true or false)", "with outputs? (true or false)",
-						"with assignments? (true or false)");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.WITH_INPUTS_RESPONSE,
+						Constants.WITH_OUTPUTS_RESPONSE, Constants.WITH_ASSIGNMENTS_RESPONSE);
 				pw.println(userTaskConsole.getTaskInstanceWithInputOutputConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findtaskbyworkitemid":
-				userResponse = getResponses("work item ID");
+				userResponse = getResponses(Constants.WORK_ITEM_ID_RESPONSE);
 				pw.println(userTaskConsole.findTaskByWorkItemIdConsole(userResponse.get(0)));
 				break;
 			case "findtaskbyid":
-				userResponse = getResponses("task ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE);
 				pw.println(userTaskConsole.findTaskByIdConsole(userResponse.get(0)));
 				break;
 			case "findtasksassignedasbusinessadministrator":
-				userResponse = getResponses("user ID", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksAssignedAsBusinessAdministratorConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2)));
 				break;
 			case "findtasksassignedasbusinessadministratorwithstatus":
-				userResponse = getResponses("user ID", "status", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.STATUS_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksAssignedAsBusinessAdministratorWithStatusConsole(
 						userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findtasksassignedaspotentialowner":
-				userResponse = getResponses("user ID", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2)));
 				break;
 			case "findtasksassignedaspotentialownerwithstatus":
-				userResponse = getResponses("user ID", "status", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.STATUS_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerWithStatusConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findtasksassignedaspotentialownerwithgroups":
-				userResponse = getResponses("user ID", "groups (comma-separated)", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.GROUPS_COMMA_SEPARATED_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerWithGroupsConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findtasksowned":
-				userResponse = getResponses("user ID", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksOwnedConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "findtasksownedwithstatuses":
-				userResponse = getResponses("user ID", "status", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.STATUS_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksOwnedWithStatusesConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findtasksbystatusbyprocessinstanceid":
-				userResponse = getResponses("process instance ID", "status", "page", "page size");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.STATUS_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksByStatusByProcessInstanceIdConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3)));
 				break;
 			case "findtasks":
-				userResponse = getResponses("user ID", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "findtaskevents":
-				userResponse = getResponses("task ID", "page", "page size");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTaskEventsConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "findtasksbyvariable":
-				userResponse = getResponses("user ID", "variable name", "status", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.VARIABLE_NAME_RESPONSE,
+						Constants.STATUS_RESPONSE, Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksByVariableConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findtasksbyvariableandvalue":
-				userResponse = getResponses("user ID", "variable name", "variable value", "status", "page",
-						"page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.VARIABLE_NAME_RESPONSE,
+						Constants.VARIABLE_VALUE_RESPONSE, Constants.STATUS_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksByVariableAndValueConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5)));
 				break;
 			case "findtasksassignedasbusinessadministratorwithsort":
-				userResponse = getResponses("user ID", "page", "page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTasksAssignedAsBusinessAdministratorWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findtasksassignedasbusinessadministratorwithstatuswithsort":
-				userResponse = getResponses("user ID", "status", "page", "page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.STATUS_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE,
+						Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTasksAssignedAsBusinessAdministratorWithStatusWithSortConsole(
 						userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3),
 						userResponse.get(4), userResponse.get(5)));
 				break;
 			case "findtasksassignedaspotentialowners":
-				userResponse = getResponses("user ID", "page", "page size");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE);
 				pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2)));
 				break;
@@ -793,65 +852,74 @@ public class Main {
 			 * getResponses(); pw.println(userTaskConsole); break;
 			 */
 			case "findtasksassignedaspotentialownerwithgroupswithsort":
-				userResponse = getResponses("user ID", "groups (comma-separated)", "status", "page", "page size",
-						"sort by", "sort order");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.GROUPS_COMMA_SEPARATED_RESPONSE,
+						Constants.STATUS_RESPONSE, Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTasksAssignedAsPotentialOwnerWithGroupsWithSortConsole(
 						userResponse.get(0), userResponse.get(1), userResponse.get(2), userResponse.get(3),
 						userResponse.get(4), userResponse.get(5), userResponse.get(6)));
 				break;
 			case "findtasksownedwithsort":
-				userResponse = getResponses("user ID", "page", "page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTasksOwnedWithSortConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findtasksownedwithstatus":
-				userResponse = getResponses("user ID", "status", "page", "page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.STATUS_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE,
+						Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTasksOwnedWithStatusConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5)));
 				break;
 			case "findtasksbystatusbyprocessinstanceidwithsort":
-				userResponse = getResponses("process instance ID", "status", "page", "page size", "sort by",
-						"sort order");
+				userResponse = getResponses(Constants.PROCESS_INSTANCE_ID_RESPONSE, Constants.STATUS_RESPONSE,
+						Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE,
+						Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTasksByStatusByProcessInstanceIdWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
 						userResponse.get(5)));
 				break;
 			case "findtaskswithsort":
-				userResponse = getResponses("user ID", "page", "page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTasksWithSortConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findtaskeventswithsort":
-				userResponse = getResponses("task ID", "page", "page size", "sort by", "sort order");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTaskEventsWithSortConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4)));
 				break;
 			case "findtasksbyvariablewithsort":
-				userResponse = getResponses("user ID", "variable name", "status", "page", "page size", "sort by",
-						"sort order");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.VARIABLE_NAME_RESPONSE,
+						Constants.STATUS_RESPONSE, Constants.PAGE_RESPONSE, Constants.PAGE_SIZE_RESPONSE,
+						Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTasksByVariableWithSortConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2), userResponse.get(3), userResponse.get(4), userResponse.get(5),
 						userResponse.get(6)));
 				break;
 			case "findtasksbyvariableandvaluewithsort":
-				userResponse = getResponses("user ID", "variable name", "variable value", "status", "page", "page size",
-						"sort by", "sort order");
+				userResponse = getResponses(Constants.USER_ID_RESPONSE, Constants.VARIABLE_NAME_RESPONSE,
+						Constants.VARIABLE_VALUE_RESPONSE, Constants.STATUS_RESPONSE, Constants.PAGE_RESPONSE,
+						Constants.PAGE_SIZE_RESPONSE, Constants.SORT_BY_RESPONSE, Constants.SHOULD_SORT_RESPONSE);
 				pw.println(userTaskConsole.findTasksByVariableAndValueWithSortConsole(userResponse.get(0),
 						userResponse.get(1), userResponse.get(2), userResponse.get(3), userResponse.get(4),
 						userResponse.get(5), userResponse.get(6), userResponse.get(7)));
 				break;
 			case "claimstartcompletehumantask":
-				userResponse = getResponses("task ID", "user ID",
-						"data (in the format \"key1=value1,key2=value2,...\")");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE, Constants.USER_ID_RESPONSE,
+						Constants.DATA_OBJECT_RESPONSE);
 				pw.println(userTaskConsole.claimStartCompleteHumanTaskConsole(userResponse.get(0), userResponse.get(1),
 						userResponse.get(2)));
 				break;
 			case "getinputdata":
-				userResponse = getResponses("task ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE);
 				pw.println(userTaskConsole.getInputDataConsole(userResponse.get(0)));
 				break;
 			case "getoutputdata":
-				userResponse = getResponses("task ID");
+				userResponse = getResponses(Constants.TASK_ID_RESPONSE);
 				pw.println(userTaskConsole.getOutputDataConsole(userResponse.get(0)));
 				break;
 			default:
@@ -860,8 +928,10 @@ public class Main {
 				break;
 			}
 		} catch (BpmsFrontendException e) {
-			//Exceptions caught in other classes/methods generate an error message using data available
-			//	to them, which they then throw as a BpmsFrontendException. Log that error here.
+			// Exceptions caught in other classes/methods generate an error message using
+			// data available
+			// to them, which they then throw as a BpmsFrontendException. Log that error
+			// here.
 			logger.error(e.getMessage());
 		}
 	}
@@ -922,17 +992,18 @@ public class Main {
 			String response;
 			try {
 				response = FrontendUtil.readLine("Enter %s", questions[i]);
-				
+
 				if (response == null) {
 					responses.add("");
 				} else {
 					responses.add(response);
 				}
 			} catch (BpmsFrontendException e) {
-				logger.error(String.format("Encountered an error while trying to read from the console. "
-						+ "The error is: %s%n", e.getMessage()));
+				logger.error(String.format(
+						"Encountered an error while trying to read from the console. " + "The error is: %s%n",
+						e.getMessage()));
 			}
-			
+
 		}
 
 		return responses;
@@ -1010,9 +1081,9 @@ public class Main {
 	protected static BpmsUserTaskConsole getUserTaskConsole() {
 		return userTaskConsole;
 	}
-	
+
 	protected static void setProxy(BpmsProxyInterface proxy) {
 		Main.proxy = proxy;
 	}
-	
+
 }

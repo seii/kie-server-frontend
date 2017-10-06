@@ -3,7 +3,6 @@ package org.wildfly.bpms.frontend.application;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -12,8 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -37,22 +34,6 @@ public class MainTest {
 	public void tearDown() throws Exception {
 		
 	}
-	
-	/*@Test
-	public void testExecuteCommand() {
-		PrintWriter pw = PowerMockito.mock(PrintWriter.class);
-		//PowerMockito.when(pw.println(Mockito.anyString())).thenReturn("");
-		PowerMockito.doAnswer(new Answer<String>() {
-            public String answer(InvocationOnMock invocation) {
-                String input = invocation.getArgument(0);
-                return input;
-            }
-        }).when(pw).println(Mockito.anyString());
-
-		Main.executeCommand("");
-		
-		//PowerMockito.verifyStatic(System.class);
-	}*/
 
 	@Test
 	public void testParseHelpBasic() {
