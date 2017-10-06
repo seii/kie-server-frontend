@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.wildfly.bpms</groupId>
-    <artifactId>bpms-frontend</artifactId>
+    <artifactId>kie-server-frontend</artifactId>
 	<version>1.0.3</version>
     <packaging>jar</packaging>
 
